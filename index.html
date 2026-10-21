@@ -105,7 +105,7 @@ h1 span.w:nth-child(2) { animation-delay: .07s } h1 span.w:nth-child(3) { animat
 .calc-top { display: block; }
 .calc-top .min { font-size: 14px; color: var(--muted); }
 .pair { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; margin-top: 14px; }
-.pair .swap { justify-self: center; margin-block: -12px; position: relative; z-index: 1; border: 4px solid var(--surface); box-sizing: content-box; }
+.pair .swap { padding: 0; justify-self: center; margin-block: -12px; position: relative; z-index: 1; border: 4px solid var(--surface); box-sizing: content-box; }
 .box { padding: 12px 10px 12px 16px; border-radius: 16px; background: var(--field); border: 1px solid var(--line); transition: border-color .2s, box-shadow .2s; min-width: 0; }
 .box:focus-within { border-color: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent); }
 .box.err { border-color: var(--down); animation: shake .35s; }
@@ -117,13 +117,13 @@ h1 span.w:nth-child(2) { animation-delay: .07s } h1 span.w:nth-child(3) { animat
 .cur select { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
 .cur .chev { margin-left: -2px; color: var(--muted); }
 .coin { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-size: 15px; font-weight: 700; color: #fff; flex: none; }
-.flag { background: linear-gradient(180deg, #fff 50%, #DC143C 50%); border: 1px solid rgba(0,0,0,.12); }
-.flag-ua { background: linear-gradient(180deg, #0057B7 50%, #FFD700 50%); border: 1px solid rgba(0,0,0,.12); }
+.flag { background: linear-gradient(180deg, #fff 50%, #DC143C 50%) no-repeat; border: 0; box-shadow: inset 0 0 0 1px rgba(0,0,0,.14); }
+.flag-ua { background: linear-gradient(180deg, #0057B7 50%, #FFD700 50%) no-repeat; border: 0; box-shadow: inset 0 0 0 1px rgba(0,0,0,.14); }
 .swap { width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--primary); color: var(--on-primary); display: grid; place-items: center; cursor: pointer; transition: rotate .45s var(--ease), background .2s; }
 .swap:hover { background: var(--primary-hover); }
 .method-l { display: block; margin: 14px 0 6px 4px; font-size: 13px; color: var(--muted); }
 .method { position: relative; display: flex; align-items: center; gap: 12px; height: 56px; padding: 0 16px 0 10px; border-radius: 16px; border: 1px solid var(--line); background: var(--field); }
-.method select { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
+.method .cur-hit { border-radius: 16px; }
 .method .logo-m { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 700; flex: none; }
 .method .name { flex: 1; }
 .calc-foot { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 16px; margin-top: 16px; }
@@ -639,7 +639,7 @@ section.blk .prose h2 { margin: 0; color: var(--ink); font-size: clamp(26px, 2.6
   .cards { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 6px; margin-inline: -4px; padding-inline: 4px; scrollbar-width: none; }
   .card { flex: 0 0 210px; scroll-snap-align: start; }
   .pair { grid-template-columns: minmax(0, 1fr); }
-  .swap { justify-self: center; margin-block: -14px; position: relative; z-index: 1; border: 4px solid var(--surface); box-sizing: content-box; }
+  .swap { padding: 0; justify-self: center; margin-block: -14px; position: relative; z-index: 1; border: 4px solid var(--surface); box-sizing: content-box; }
   .cta { width: 100%; }
   .calc-foot { grid-template-columns: minmax(0, 1fr); }
   .steps, .facts { grid-template-columns: minmax(0, 1fr); }
@@ -730,7 +730,7 @@ section.blk .prose h2 { margin: 0; color: var(--ink); font-size: clamp(26px, 2.6
   .how { --st: 150px; }
   .how-head { top: 76px; padding: 12px 0 14px; gap: 12px; }
   .how-head .sub { display: none; }
-  .how-head h2 { font-size: 24px !important; }
+
   .how-head .stepper { gap: 14px; }
   .how-head .stepper li { width: 36px; height: 36px; font-size: 14px; }
   .how-head .stepper li + li::before { width: 14px; }
@@ -766,6 +766,89 @@ section.blk .prose h2 { margin: 0; color: var(--ink); font-size: clamp(26px, 2.6
 :root[data-motion="off"] *, :root[data-motion="off"] *::before, :root[data-motion="off"] *::after { animation: none !important; transition: none !important; }
 @media (prefers-reduced-motion: reduce) { :root:not([data-motion="on"]) *, :root:not([data-motion="on"]) *::before, :root:not([data-motion="on"]) *::after { animation: none !important; transition: none !important; } }
 ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+
+
+/* currency picker */
+.cur-hit { position: absolute; inset: 0; border: 0; background: transparent; cursor: pointer; border-radius: 999px; }
+.cur-hit:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.cur-t { display: inline-flex; flex-direction: column; line-height: 1.05; }
+.cur-t small { font-size: 10px; font-weight: 500; color: var(--muted); letter-spacing: .02em; }
+.coin { position: relative; }
+.netb { position: absolute; right: -3px; bottom: -3px; width: 14px; height: 14px; border-radius: 50%; display: grid; place-items: center; font: 700 8px/1 var(--f); font-style: normal; color: #fff; border: 2px solid var(--surface); }
+.qx-sel { border: 0; font: inherit; cursor: pointer; }
+.qx-sel .coin { width: 24px; height: 24px; font-size: 12px; }
+.qx-sel small { margin-left: 4px; font-size: 11px; opacity: .7; }
+.qx-sel .netb { border-color: #1a2733; }
+#picker { position: fixed; inset: 0; margin: auto; width: min(880px, calc(100vw - 32px)); height: fit-content; max-height: min(620px, calc(100vh - 48px)); }
+#picker::backdrop { background: rgba(11,26,38,0); transition: background .28s, display .28s allow-discrete, overlay .28s allow-discrete; }
+#picker:popover-open::backdrop { background: rgba(11,26,38,.55); }
+@starting-style { #picker:popover-open::backdrop { background: rgba(11,26,38,0); } }
+.pk { display: flex; flex-direction: column; gap: 16px; max-height: inherit; padding: 24px; border-radius: 28px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow-lg); }
+.pk-hd { display: flex; align-items: center; justify-content: space-between; }
+.pk-hd b { font-size: var(--t-h3s); font-weight: 500; }
+.pk-x { width: 40px; height: 40px; padding: 0; border-radius: 50%; border: 0; background: var(--field); color: var(--ink); display: grid; place-items: center; cursor: pointer; }
+.pk-s { display: flex; align-items: center; gap: 12px; height: 56px; padding: 0 18px; border-radius: 16px; background: var(--field); border: 1px solid var(--line); color: var(--muted); transition: border-color .2s, box-shadow .2s; }
+.pk-s:focus-within { border-color: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent); }
+.pk-s input { flex: 1; min-width: 0; height: 100%; border: 0; background: transparent; color: var(--ink); font-size: var(--t-body); outline: none; }
+.pk-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; overflow: auto; overscroll-behavior: contain; margin: 0 -6px; padding: 2px 6px 4px; }
+.pk-it { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 16px; border: 1px solid transparent; background: transparent; color: var(--ink); text-align: left; cursor: pointer; transition: background .15s, border-color .15s; }
+.pk-it:hover, .pk-it:focus-visible { background: var(--field); outline: none; }
+.pk-it[aria-selected="true"] { background: var(--tint); border-color: color-mix(in srgb, var(--accent) 40%, transparent); }
+.pk-it .coin, .pk-it .logo-m { width: 40px; height: 40px; font-size: 18px; flex: none; }
+.pk-it .logo-m { font-size: 12px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; box-shadow: inset 0 0 0 1px rgba(255,255,255,.14); }
+.pk-it .netb { width: 18px; height: 18px; font-size: 9px; }
+.pk-it b { display: block; font-weight: 500; font-size: var(--t-body); }
+.pk-it small { color: var(--muted); font-size: var(--t-sm); }
+.pk-empty { margin: 8px 0; color: var(--muted); font-size: var(--t-sm); text-align: center; }
+@media (max-width: 860px) {
+  #picker { inset: auto 0 0 0; width: 100%; max-height: 88vh; margin: 0; }
+  #picker.pop { translate: 0 40px; } #picker.pop:popover-open { translate: 0 0; }
+  @starting-style { #picker.pop:popover-open { translate: 0 40px; } }
+  .pk { border-radius: 28px 28px 0 0; padding: 18px 16px calc(16px + env(safe-area-inset-bottom, 0px)); height: 88vh; }
+  .pk-list { grid-template-columns: minmax(0, 1fr); align-content: start; }
+}
+
+/* ===== design tokens: one type scale + one spacing rhythm (overrides earlier ad-hoc values) ===== */
+:root {
+  --t-cap: 12px; --t-sm: 14px; --t-body: 16px; --t-lead: 18px;
+  --t-h3s: 20px; --t-h3: 22px; --t-h3l: 26px; --t-h2: 34px; --t-num: 36px;
+  --sec-y: 56px; --gap-head: 32px;
+}
+h1, h2, h3, h4 { text-wrap: balance; }
+/* captions */
+.new, .tc, .chg, .card .nm span, .sell, .scard .ey, .legal, .iso, .rev .who small { font-size: var(--t-cap); }
+/* small text */
+.box label, .method-l, .calc-foot p, .live, .calc-iso, .ph-note, .crow small, .pex, .toc a, .fcols ul, .qx-l, .qx-note, .badge, .all, .legal-note, .foot-iso { font-size: var(--t-sm); }
+/* body */
+.step p, .fact .t, .faq details p, details p, .prose ul.cards li, .prose .kf p, .more, .rev p, .prose table, summary, .faq summary { font-size: var(--t-body); }
+.prose ul.cards li strong { font-size: var(--t-body); }
+/* lead */
+.lead, section.blk .sub, .scard p, .prose, .cta, .qx-go, .prose .kf h4 { font-size: var(--t-lead); }
+.prose { line-height: 1.7; }
+/* headings: same size, line-height and tracking for every section title */
+section.blk h2, section.blk .band h2, section.blk .prose h2, .how-head h2, section.blk .faq-side h2 { font-size: var(--t-h2); line-height: 1.15; letter-spacing: -.02em; }
+.how .scard h3 { font-size: var(--t-h3l); line-height: 1.2; letter-spacing: -.01em; }
+.prose h3 { font-size: var(--t-h3); line-height: 1.3; letter-spacing: -.01em; }
+.post h3, .crow b { font-size: var(--t-h3s); line-height: 1.3; letter-spacing: -.01em; }
+.crow b { font-size: var(--t-lead); }
+.fact .big, .score .big { font-size: var(--t-num); line-height: 1.1; }
+
+.eyebrow, .toc-l { font-size: var(--t-cap); }
+.tk, .tk b, .tp, .score small { font-size: var(--t-sm); }
+nav.menu, .fcols h4 { font-size: var(--t-body); }
+.card .nm b { font-size: var(--t-body); }
+/* vertical rhythm */
+section.blk { padding-block: var(--sec-y); }
+.hero { padding-bottom: var(--sec-y); }
+section.blk .sub { margin-top: 8px; }
+.facts, .rev-rail, .geo, .posts { margin-top: var(--gap-head); }
+@media (max-width: 860px) {
+  :root { --t-h3l: 22px; --t-h3: 20px; --t-h2: 26px; --t-num: 28px; --t-lead: 17px; --sec-y: 36px; --gap-head: 20px; }
+  section.blk .sub { font-size: var(--t-body); }
+  .hero { padding-bottom: var(--sec-y); }
+  .cities, .posts { margin: calc(var(--gap-head) - 8px) -16px 0; }
+  .prose { font-size: var(--t-body); }
+}
 </style>
 
 <div class="proto">
@@ -830,14 +913,12 @@ section.blk .prose h2 { margin: 0; color: var(--ink); font-size: clamp(26px, 2.6
             </div>
           </div>
         </div>
-        <label class="method-l" for="method">Metoda wysyłki płatności</label>
+        <span class="method-l" id="methodL">Metoda wysyłki płatności</span>
         <div class="method">
           <span class="logo-m" id="mLogo" style="background:#FFDD00;color:#000">WU</span>
           <span class="name" id="mName">Western Union</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-          <select id="method" aria-label="Metoda wysyłki płatności">
-            <option value="wu">Western Union</option><option value="ria">RIA</option><option value="card">Visa / Mastercard</option><option value="swift">SWIFT</option><option value="cash">Gotówka</option>
-          </select>
+          <button type="button" class="cur-hit" id="methodBtn" aria-labelledby="methodL mName"></button>
         </div>
         <div class="calc-foot">
           <p><span id="rateLine" class="rate num" translate="no"></span><br><span id="hint">Od 300 zł · kurs ustalamy w chwili zaksięgowania</span></p>
@@ -968,9 +1049,9 @@ section.blk .prose h2 { margin: 0; color: var(--ink); font-size: clamp(26px, 2.6
       <form class="band qx reveal" id="qxForm" novalidate>
         <div class="qx-head"><h2 id="qH">Sprawdź, ile otrzymasz</h2><p><span class="dot" aria-hidden="true"></span>Kurs na żywo · bez rejestracji</p></div>
         <div class="qx-row">
-          <label class="qx-f" for="qAmt"><span class="qx-l">Oddajesz</span><span class="qx-in"><input id="qAmt" inputmode="decimal" autocomplete="off" value="1 000"><span class="qx-sel"><select id="qFiat" aria-label="Waluta"><option value="PLN">PLN</option><option value="UAH">UAH</option></select><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span></span></label>
+          <label class="qx-f" for="qAmt"><span class="qx-l">Oddajesz</span><span class="qx-in"><input id="qAmt" inputmode="decimal" autocomplete="off" value="1 000"><button type="button" class="qx-sel" id="qFiatB" aria-label="Waluta. Zmień"></button></span></label>
           <span class="qx-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-          <div class="qx-f"><span class="qx-l" id="qOutL">Otrzymujesz (szacunkowo)</span><span class="qx-in"><output id="qOut" class="num" translate="no" aria-labelledby="qOutL">0</output><span class="qx-sel"><select id="qCoin" aria-label="Kryptowaluta"><option value="BTC">BTC</option><option value="ETH">ETH</option><option value="USDT">USDT</option><option value="SOL">SOL</option><option value="USDC">USDC</option><option value="BNB">BNB</option></select><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span></span></div>
+          <div class="qx-f"><span class="qx-l" id="qOutL">Otrzymujesz (szacunkowo)</span><span class="qx-in"><output id="qOut" class="num" translate="no" aria-labelledby="qOutL">0</output><button type="button" class="qx-sel" id="qCoinB" aria-label="Kryptowaluta. Zmień"></button></span></div>
           <button class="btn qx-go" type="submit" id="qGo">Kup teraz</button>
         </div>
         <p class="qx-note" id="qNote">Od 300 zł · kurs ustalamy w chwili zaksięgowania</p>
@@ -1082,6 +1163,15 @@ section.blk .prose h2 { margin: 0; color: var(--ink); font-size: clamp(26px, 2.6
   </div>
 </div>
 <template id="lg-navy"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 47 57"><path fill="#0E1E2C" d="m2.08 1 42.83.01c.6 0 1.07.48 1.07 1.08v36.46c0 .65-.3 1.26-.8 1.65L24 55.67c-.57.44-1.36.44-1.930 0L1.88 40.3c-.52-.4-.82-1-.82-1.65L1 2.08C1 1.48 1.48 1 2.08 1"/><path fill="#F4F6F8" d="M15.66 7.28c-.94.96-2.24 1.48-3.22 2.38-1.1 1-2.18 1.99-2.58 3-.45 1.13-.14 2.5.83 3.16.14.1.15.29.06.44-1.27 2.42-2.94 4.770-.34 8 .58.7 1.13 1.35 1.4 2.23.32.97.05 2.31-.25 3.3-.5 1.64-.04 3.28.74 4.82.77 1.55 2.24 2.88 3.84 2.88.48 2.46 2.73 4.06 4.76 5.53.3.22.76.53 1.19.82.63.42 1.45.42 2.08 0l1.03-.69c2.03-1.38 4.22-3.02 4.62-5.44 3.6-.28 5.57-2.94 5.71-5.94.1-1.94-.9-3.61-.23-5.44.42-1.12 1.53-2.34 2.08-3.4.71-1.38.8-3.170-.02-4.48-.5-.81-1.17-2.55-1.17-2.55s.47-1.1.46-1.76c-.02-1.21-.78-2.05-1.54-2.99a17 17 0 0 0-2.6-2.56l-1.84-1.35s-1.6.94-2.26 1.42c-1.1.8-2.25 1.4-3.34 2.2-.59.42-1.32 1.12-2.04 1.13-.68 0-1.19-.65-1.76-1.03a470 470 0 0 0-5.61-3.68"/><path fill="#0E1E2C" d="M28.44 21.21c.17-1.07 1.01-1.930 1.96-2.45.95-.51 2.02-.77 3.04-1.12a5.6 5.6 0 0 0 2.71-1.7 6.6 6.6 0 0 1-3.9 4.7 9 9 0 0 1-3.8.57m-17.57-5.26q.42.82.97 1.56a10 10 0 0 0 2.94 2.68 7.5 7.5 0 0 0 3.82 1.04A5 5 0 0 0 17.36 19a6 6 0 0 0-1.84-1.05z"/><path stroke="#3E5266" stroke-linecap="round" stroke-miterlimit="10" d="m18.33 1.06 4.1 3.14c.39.3.92.3 1.3 0L27.86 1"/><path stroke="#3E5266" stroke-linecap="round" stroke-miterlimit="10" d="M6.41 1.05 22.43 11.8c.4.26.92.26 1.31 0L39.81 1.02"/><path stroke="#0E1E2C" stroke-linecap="round" stroke-miterlimit="10" d="M15.77 7.37s-3.7 2.1-5.6 4.66a2.7 2.7 0 0 0 .97 4.04c1.11.53 2.89 1.08 5.4 2.25 1.4.66 2.75 2.81 2.02 5.86-.12.47-.22.94-.37 1.910-.2 1.27.85 2.4 2.13 2.25q.43-.04.97-.17c1.02-.24 2.3-.47 4.82-.07q.24.04.53.06a2.12 2.12 0 0 0 2.27-2.42 9 9 0 0 0-.51-1.77c-.6-1.52-.32-4.6 3.17-5.72.95-.3 2-.37 3.7-1.49a3.1 3.1 0 0 0 .85-4.3 21 21 0 0 0-5.52-5.27"/><path stroke="#0E1E2C" stroke-linecap="round" stroke-miterlimit="10" d="M10.82 15.9s-.12.73-1.25 2.68c-.5.84-.7 1.84-.52 2.8.18.92.64 2.07 1.72 3.32.89 1.02 1.66 2.15.82 5.18-.38 1.34-.26 3.35 1.15 5.45a5.4 5.4 0 0 0 5.29 2.27 6.5 6.5 0 0 0 4.7-3.22c.56-.89.1-2.14-2.08-3.63-1.03-.7-2.58-2.05-2.48-4.32M36.19 15.9s.1.73 1.25 2.68c.5.84.7 1.84.51 2.8a7 7 0 0 1-1.72 3.32c-.88 1.02-1.66 2.15-.81 5.18.37 1.34.25 3.35-1.16 5.45a5.4 5.4 0 0 1-5.29 2.27 6.5 6.5 0 0 1-4.7-3.22c-.55-.89-.1-2.14 2.09-3.63 1.03-.7 2.67-2.5 2.57-4.77"/><path stroke="#3E5266" stroke-linecap="round" stroke-miterlimit="10" d="M16.14 37.66s.9 3.6 6.5 6.41q.47.22.94 0c1.43-.73 5.73-3.17 6.27-6.41M10.82 15.92s2.57 5.33 7.8 5.33m9.76-.03s6.35.58 7.76-5.23m-25.5.41s-7.34-.1-9.55 2.92m10.75 7.47S3.79 28.58 1.07 37.17m15.05.38s-7.43 3.82-2.4 11.75m22.66-32.9s7.34-.1 9.55 2.92m-10.75 7.47s8.05 1.79 10.78 10.38m-15.06.38s6.6 3.98 2.32 11.4"/></svg></template><template id="lg-blue"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 47 57"><path fill="#377FB5" d="m2.08 1 42.83.01c.6 0 1.07.48 1.07 1.08v36.46c0 .65-.3 1.26-.8 1.65L24 55.67c-.57.44-1.36.44-1.93 0L1.88 40.3c-.52-.4-.82-1-.82-1.65L1 2.08C1 1.48 1.48 1 2.08 1"/><path fill="#EEF2F2" d="M15.66 7.28c-.94.96-2.24 1.48-3.22 2.38-1.1 1-2.18 1.99-2.58 3-.45 1.13-.14 2.5.83 3.16.14.1.15.29.06.44-1.27 2.42-2.94 4.77-.34 8 .58.7 1.13 1.35 1.4 2.23.32.97.05 2.31-.25 3.3-.5 1.64-.04 3.28.74 4.82.77 1.55 2.24 2.88 3.84 2.88.48 2.46 2.73 4.06 4.76 5.53.3.22.76.53 1.19.82.63.42 1.45.42 2.08 0l1.03-.69c2.03-1.38 4.22-3.02 4.62-5.44 3.6-.28 5.57-2.94 5.71-5.94.1-1.94-.9-3.61-.23-5.44.42-1.12 1.53-2.34 2.08-3.4.71-1.38.8-3.17-.02-4.48-.5-.81-1.17-2.55-1.17-2.55s.47-1.1.46-1.76c-.02-1.21-.78-2.05-1.54-2.99a17 17 0 0 0-2.6-2.56l-1.84-1.35s-1.6.94-2.26 1.42c-1.1.8-2.25 1.4-3.34 2.2-.59.42-1.32 1.12-2.04 1.13-.68 0-1.19-.65-1.76-1.03a470 470 0 0 0-5.61-3.68"/><path fill="#F4F4F4" d="M15.66 7.28c-.94.96-2.24 1.48-3.22 2.38-1.1 1-2.18 1.99-2.58 3-.45 1.13-.14 2.5.83 3.16.14.1.15.29.06.44-1.27 2.42-2.94 4.77-.34 8 .58.7 1.13 1.35 1.4 2.23.32.97.05 2.31-.25 3.3-.5 1.64-.04 3.28.74 4.82.77 1.55 2.24 2.88 3.84 2.88.48 2.46 2.73 4.06 4.76 5.53.3.22.76.53 1.19.82.63.42 1.45.42 2.08 0l1.03-.69c2.03-1.38 4.22-3.02 4.62-5.44 3.6-.28 5.57-2.94 5.71-5.94.1-1.94-.9-3.61-.23-5.44.42-1.12 1.53-2.34 2.08-3.4.71-1.38.8-3.17-.02-4.48-.5-.81-1.17-2.55-1.17-2.55s.47-1.1.46-1.76c-.02-1.21-.78-2.05-1.54-2.99a17 17 0 0 0-2.6-2.56l-1.84-1.35s-1.6.94-2.26 1.42c-1.1.8-2.25 1.4-3.34 2.2-.59.42-1.32 1.12-2.04 1.13-.68 0-1.19-.65-1.76-1.03a470 470 0 0 0-5.61-3.68"/><path fill="#3780B2" d="M28.44 21.21c.17-1.07 1.01-1.93 1.96-2.45.95-.51 2.02-.77 3.04-1.12a5.6 5.6 0 0 0 2.71-1.7 6.6 6.6 0 0 1-3.9 4.7 9 9 0 0 1-3.8.57m-17.57-5.26q.42.82.97 1.56a10 10 0 0 0 2.94 2.68 7.5 7.5 0 0 0 3.82 1.04A5 5 0 0 0 17.36 19a6 6 0 0 0-1.84-1.05z"/><path stroke="#000" stroke-miterlimit="10" d="m2.09 1 42.83.01c.6 0 1.07.48 1.07 1.08v36.46c0 .65-.3 1.26-.8 1.65L24.01 55.67c-.57.44-1.36.44-1.92 0L1.89 40.3c-.52-.4-.82-1-.82-1.65L1 2.08C1.01 1.48 1.5 1 2.1 1Z"/><path stroke="#000" stroke-linecap="round" stroke-miterlimit="10" d="m18.33 1.06 4.1 3.14c.39.3.92.3 1.3 0L27.86 1"/><path stroke="#000" stroke-linecap="round" stroke-miterlimit="10" d="M6.41 1.05 22.43 11.8c.4.26.92.26 1.31 0L39.81 1.02"/><path stroke="#000" stroke-linecap="round" stroke-miterlimit="10" d="M15.77 7.37s-3.7 2.1-5.6 4.66a2.7 2.7 0 0 0 .97 4.04c1.11.53 2.89 1.08 5.4 2.25 1.4.66 2.75 2.81 2.02 5.86-.12.47-.22.94-.37 1.91-.2 1.27.85 2.4 2.13 2.25q.43-.04.97-.17c1.02-.24 2.3-.47 4.82-.07q.24.04.53.06a2.12 2.12 0 0 0 2.27-2.42 9 9 0 0 0-.51-1.77c-.6-1.52-.32-4.6 3.17-5.72.95-.3 2-.37 3.7-1.49a3.1 3.1 0 0 0 .85-4.3 21 21 0 0 0-5.52-5.27"/><path stroke="#000" stroke-linecap="round" stroke-miterlimit="10" d="M10.82 15.9s-.12.73-1.25 2.68c-.5.84-.7 1.84-.52 2.8.18.92.64 2.07 1.72 3.32.89 1.02 1.66 2.15.82 5.18-.38 1.34-.26 3.35 1.15 5.45a5.4 5.4 0 0 0 5.29 2.27 6.5 6.5 0 0 0 4.7-3.22c.56-.89.1-2.14-2.08-3.63-1.03-.7-2.58-2.05-2.48-4.32M36.19 15.9s.1.73 1.25 2.68c.5.84.7 1.84.51 2.8a7 7 0 0 1-1.72 3.32c-.88 1.02-1.66 2.15-.81 5.18.37 1.34.25 3.35-1.16 5.45a5.4 5.4 0 0 1-5.29 2.27 6.5 6.5 0 0 1-4.7-3.22c-.55-.89-.1-2.14 2.09-3.63 1.03-.7 2.67-2.5 2.57-4.77"/><path stroke="#000" stroke-linecap="round" stroke-miterlimit="10" d="M16.14 37.66s.9 3.6 6.5 6.41q.47.22.94 0c1.43-.73 5.73-3.17 6.27-6.41M10.82 15.92s2.57 5.33 7.8 5.33m9.76-.03s6.35.58 7.76-5.23m-25.5.41s-7.34-.1-9.55 2.92m10.75 7.47S3.79 28.58 1.07 37.17m15.05.38s-7.43 3.82-2.4 11.75m22.66-32.9s7.34-.1 9.55 2.92m-10.75 7.47s8.05 1.79 10.78 10.38m-15.06.38s6.6 3.98 2.32 11.4"/></svg></template><template id="lg-bluewhite"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 47 57"><path fill="#377FB5" d="m2.08 1 42.83.01c.6 0 1.07.48 1.07 1.08v36.46c0 .65-.3 1.26-.8 1.65L24 55.67c-.57.44-1.36.44-1.93 0L1.88 40.3c-.52-.4-.82-1-.82-1.65L1 2.08C1 1.48 1.48 1 2.08 1"/><path fill="#EEF2F2" d="M15.66 7.28c-.94.96-2.24 1.48-3.22 2.38-1.1 1-2.18 1.99-2.58 3-.45 1.13-.14 2.5.83 3.16.14.1.15.29.06.44-1.27 2.42-2.94 4.77-.34 8 .58.7 1.13 1.35 1.4 2.23.32.97.05 2.31-.25 3.3-.5 1.64-.04 3.28.74 4.82.77 1.55 2.24 2.88 3.84 2.88.48 2.46 2.73 4.06 4.76 5.53.3.22.76.53 1.19.82.63.42 1.45.42 2.08 0l1.03-.69c2.03-1.38 4.22-3.02 4.62-5.44 3.6-.28 5.57-2.94 5.71-5.94.1-1.94-.9-3.61-.23-5.44.42-1.12 1.53-2.34 2.08-3.4.71-1.38.8-3.17-.02-4.48-.5-.81-1.17-2.55-1.17-2.55s.47-1.1.46-1.76c-.02-1.21-.78-2.05-1.54-2.99a17 17 0 0 0-2.6-2.56l-1.84-1.35s-1.6.94-2.26 1.42c-1.1.8-2.25 1.4-3.34 2.2-.59.42-1.32 1.12-2.04 1.13-.68 0-1.19-.65-1.76-1.03a470 470 0 0 0-5.61-3.68"/><path fill="#F4F4F4" d="M15.66 7.28c-.94.96-2.24 1.48-3.22 2.38-1.1 1-2.18 1.99-2.58 3-.45 1.13-.14 2.5.83 3.16.14.1.15.29.06.44-1.27 2.42-2.94 4.77-.34 8 .58.7 1.13 1.35 1.4 2.23.32.97.05 2.31-.25 3.3-.5 1.64-.04 3.28.74 4.82.77 1.55 2.24 2.88 3.84 2.88.48 2.46 2.73 4.06 4.76 5.53.3.22.76.53 1.19.82.63.42 1.45.42 2.08 0l1.03-.69c2.03-1.38 4.22-3.02 4.62-5.44 3.6-.28 5.57-2.94 5.71-5.94.1-1.94-.9-3.61-.23-5.44.42-1.12 1.53-2.34 2.08-3.4.71-1.38.8-3.17-.02-4.48-.5-.81-1.17-2.55-1.17-2.55s.47-1.1.46-1.76c-.02-1.21-.78-2.05-1.54-2.99a17 17 0 0 0-2.6-2.56l-1.84-1.35s-1.6.94-2.26 1.42c-1.1.8-2.25 1.4-3.34 2.2-.59.42-1.32 1.12-2.04 1.13-.68 0-1.19-.65-1.76-1.03a470 470 0 0 0-5.61-3.68"/><path fill="#3780B2" d="M28.44 21.21c.17-1.07 1.01-1.93 1.96-2.45.95-.51 2.02-.77 3.04-1.12a5.6 5.6 0 0 0 2.71-1.7 6.6 6.6 0 0 1-3.9 4.7 9 9 0 0 1-3.8.57m-17.57-5.26q.42.82.97 1.56a10 10 0 0 0 2.94 2.68 7.5 7.5 0 0 0 3.82 1.04A5 5 0 0 0 17.36 19a6 6 0 0 0-1.84-1.05z"/><path stroke="#000" stroke-miterlimit="10" d="m2.09 1 42.83.01c.6 0 1.07.48 1.07 1.08v36.46c0 .65-.3 1.26-.8 1.65L24.01 55.67c-.57.44-1.36.44-1.92 0L1.89 40.3c-.52-.4-.82-1-.82-1.65L1 2.08C1.01 1.48 1.5 1 2.1 1Z"/><path stroke="#FFFFFF" stroke-linecap="round" stroke-miterlimit="10" d="m18.33 1.06 4.1 3.14c.39.3.92.3 1.3 0L27.86 1"/><path stroke="#FFFFFF" stroke-linecap="round" stroke-miterlimit="10" d="M6.41 1.05 22.43 11.8c.4.26.92.26 1.31 0L39.81 1.02"/><path stroke="#000" stroke-linecap="round" stroke-miterlimit="10" d="M15.77 7.37s-3.7 2.1-5.6 4.66a2.7 2.7 0 0 0 .97 4.04c1.11.53 2.89 1.08 5.4 2.25 1.4.66 2.75 2.81 2.02 5.86-.12.47-.22.94-.37 1.91-.2 1.27.85 2.4 2.13 2.25q.43-.04.97-.17c1.02-.24 2.3-.47 4.82-.07q.24.04.53.06a2.12 2.12 0 0 0 2.27-2.42 9 9 0 0 0-.51-1.77c-.6-1.52-.32-4.6 3.17-5.72.95-.3 2-.37 3.7-1.49a3.1 3.1 0 0 0 .85-4.3 21 21 0 0 0-5.52-5.27"/><path stroke="#000" stroke-linecap="round" stroke-miterlimit="10" d="M10.82 15.9s-.12.73-1.25 2.68c-.5.84-.7 1.84-.52 2.8.18.92.64 2.07 1.72 3.32.89 1.02 1.66 2.15.82 5.18-.38 1.34-.26 3.35 1.15 5.45a5.4 5.4 0 0 0 5.29 2.27 6.5 6.5 0 0 0 4.7-3.22c.56-.89.1-2.14-2.08-3.63-1.03-.7-2.58-2.05-2.48-4.32M36.19 15.9s.1.73 1.25 2.68c.5.84.7 1.84.51 2.8a7 7 0 0 1-1.72 3.32c-.88 1.02-1.66 2.15-.81 5.18.37 1.34.25 3.35-1.16 5.45a5.4 5.4 0 0 1-5.29 2.27 6.5 6.5 0 0 1-4.7-3.22c-.55-.89-.1-2.14 2.09-3.63 1.03-.7 2.67-2.5 2.57-4.77"/><path stroke="#FFFFFF" stroke-linecap="round" stroke-miterlimit="10" d="M16.14 37.66s.9 3.6 6.5 6.41q.47.22.94 0c1.43-.73 5.73-3.17 6.27-6.41M10.82 15.92s2.57 5.33 7.8 5.33m9.76-.03s6.35.58 7.76-5.23m-25.5.41s-7.34-.1-9.55 2.92m10.75 7.47S3.79 28.58 1.07 37.17m15.05.38s-7.43 3.82-2.4 11.75m22.66-32.9s7.34-.1 9.55 2.92m-10.75 7.47s8.05 1.79 10.78 10.38m-15.06.38s6.6 3.98 2.32 11.4"/></svg></template>
+
+<div id="picker" class="pop" popover>
+  <div class="pk" role="dialog" aria-labelledby="pkT">
+    <div class="pk-hd"><b id="pkT">Wybierz walutę</b><button type="button" class="pk-x" popovertarget="picker" popovertargetaction="hide" aria-label="Zamknij"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <label class="pk-s"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="pkQ" type="search" placeholder="Szukaj waluty" autocomplete="off" aria-label="Szukaj waluty"></label>
+    <div class="pk-list" id="pkList" role="listbox" aria-label="Waluty"></div>
+    <p class="pk-empty" id="pkEmpty" hidden>Nic nie znaleziono. Spróbuj wpisać nazwę, kod lub sieć, np. „TRC20”.</p>
+  </div>
+</div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><g id="lionUse"><path fill="#377FB5" d="m2.08 1 42.83.01c.6 0 1.07.48 1.07 1.08v36.46c0 .65-.3 1.26-.8 1.65L24 55.67c-.57.44-1.36.44-1.93 0L1.88 40.3c-.52-.4-.82-1-.82-1.65L1 2.08C1 1.48 1.48 1 2.08 1"/><path fill="#EEF2F2" d="M15.66 7.28c-.94.96-2.24 1.48-3.22 2.38-1.1 1-2.18 1.99-2.58 3-.45 1.13-.14 2.5.83 3.16.14.1.15.29.06.44-1.27 2.42-2.94 4.77-.34 8 .58.7 1.13 1.35 1.4 2.23.32.97.05 2.31-.25 3.3-.5 1.64-.04 3.28.74 4.82.77 1.55 2.24 2.88 3.84 2.88.48 2.46 2.73 4.06 4.76 5.53.3.22.76.53 1.19.82.63.42 1.45.42 2.08 0l1.03-.69c2.03-1.38 4.22-3.02 4.62-5.44 3.6-.28 5.57-2.94 5.71-5.94.1-1.94-.9-3.61-.23-5.44.42-1.12 1.53-2.34 2.08-3.4.71-1.38.8-3.17-.02-4.48-.5-.81-1.17-2.55-1.17-2.55s.47-1.1.46-1.76c-.02-1.21-.78-2.05-1.54-2.99a17 17 0 0 0-2.6-2.56l-1.84-1.35s-1.6.94-2.26 1.42c-1.1.8-2.25 1.4-3.34 2.2-.59.42-1.32 1.12-2.04 1.13-.68 0-1.19-.65-1.76-1.03a470 470 0 0 0-5.61-3.68"/><path fill="#F4F4F4" d="M15.66 7.28c-.94.96-2.24 1.48-3.22 2.38-1.1 1-2.18 1.99-2.58 3-.45 1.13-.14 2.5.83 3.16.14.1.15.29.06.44-1.27 2.42-2.94 4.77-.34 8 .58.7 1.13 1.35 1.4 2.23.32.97.05 2.31-.25 3.3-.5 1.64-.04 3.28.74 4.82.77 1.55 2.24 2.88 3.84 2.88.48 2.46 2.73 4.06 4.76 5.53.3.22.76.53 1.19.82.63.42 1.45.42 2.08 0l1.03-.69c2.03-1.38 4.22-3.02 4.62-5.44 3.6-.28 5.57-2.94 5.71-5.94.1-1.94-.9-3.61-.23-5.44.42-1.12 1.53-2.34 2.08-3.4.71-1.38.8-3.17-.02-4.48-.5-.81-1.17-2.55-1.17-2.55s.47-1.1.46-1.76c-.02-1.21-.78-2.05-1.54-2.99a17 17 0 0 0-2.6-2.56l-1.84-1.35s-1.6.94-2.26 1.42c-1.1.8-2.25 1.4-3.34 2.2-.59.42-1.32 1.12-2.04 1.13-.68 0-1.19-.65-1.76-1.03a470 470 0 0 0-5.61-3.68"/><path fill="#3780B2" d="M28.44 21.21c.17-1.07 1.01-1.93 1.96-2.45.95-.51 2.02-.77 3.04-1.12a5.6 5.6 0 0 0 2.71-1.7 6.6 6.6 0 0 1-3.9 4.7 9 9 0 0 1-3.8.57m-17.57-5.26q.42.82.97 1.56a10 10 0 0 0 2.94 2.68 7.5 7.5 0 0 0 3.82 1.04A5 5 0 0 0 17.36 19a6 6 0 0 0-1.84-1.05z"/><path stroke="#000" stroke-miterlimit="10" d="m2.09 1 42.83.01c.6 0 1.07.48 1.07 1.08v36.46c0 .65-.3 1.26-.8 1.65L24.01 55.67c-.57.44-1.36.44-1.92 0L1.89 40.3c-.52-.4-.82-1-.82-1.65L1 2.08C1.01 1.48 1.5 1 2.1 1Z"/><path stroke="#000" stroke-linecap="round" stroke-miterlimit="10" d="m18.33 1.06 4.1 3.14c.39.3.92.3 1.3 0L27.86 1"/><path stroke="#000" stroke-linecap="round" stroke-miterlimit="10" d="M6.41 1.05 22.43 11.8c.4.26.92.26 1.31 0L39.81 1.02"/><path stroke="#000" stroke-linecap="round" stroke-miterlimit="10" d="M15.77 7.37s-3.7 2.1-5.6 4.66a2.7 2.7 0 0 0 .97 4.04c1.11.53 2.89 1.08 5.4 2.25 1.4.66 2.75 2.81 2.02 5.86-.12.47-.22.94-.37 1.91-.2 1.27.85 2.4 2.13 2.25q.43-.04.97-.17c1.02-.24 2.3-.47 4.82-.07q.24.04.53.06a2.12 2.12 0 0 0 2.27-2.42 9 9 0 0 0-.51-1.77c-.6-1.52-.32-4.6 3.17-5.72.95-.3 2-.37 3.7-1.49a3.1 3.1 0 0 0 .85-4.3 21 21 0 0 0-5.52-5.27"/><path stroke="#000" stroke-linecap="round" stroke-miterlimit="10" d="M10.82 15.9s-.12.73-1.25 2.68c-.5.84-.7 1.84-.52 2.8.18.92.64 2.07 1.72 3.32.89 1.02 1.66 2.15.82 5.18-.38 1.34-.26 3.35 1.15 5.45a5.4 5.4 0 0 0 5.29 2.27 6.5 6.5 0 0 0 4.7-3.22c.56-.89.1-2.14-2.08-3.63-1.03-.7-2.58-2.05-2.48-4.32M36.19 15.9s.1.73 1.25 2.68c.5.84.7 1.84.51 2.8a7 7 0 0 1-1.72 3.32c-.88 1.02-1.66 2.15-.81 5.18.37 1.34.25 3.35-1.16 5.45a5.4 5.4 0 0 1-5.29 2.27 6.5 6.5 0 0 1-4.7-3.22c-.55-.89-.1-2.14 2.09-3.63 1.03-.7 2.67-2.5 2.57-4.77"/><path stroke="#000" stroke-linecap="round" stroke-miterlimit="10" d="M16.14 37.66s.9 3.6 6.5 6.41q.47.22.94 0c1.43-.73 5.73-3.17 6.27-6.41M10.82 15.92s2.57 5.33 7.8 5.33m9.76-.03s6.35.58 7.76-5.23m-25.5.41s-7.34-.1-9.55 2.92m10.75 7.47S3.79 28.58 1.07 37.17m15.05.38s-7.43 3.82-2.4 11.75m22.66-32.9s7.34-.1 9.55 2.92m-10.75 7.47s8.05 1.79 10.78 10.38m-15.06.38s6.6 3.98 2.32 11.4"/></g></defs></svg>
@@ -1127,6 +1217,15 @@ section.blk .prose h2 { margin: 0; color: var(--ink); font-size: clamp(26px, 2.6
     { code: 'BNB', name: 'BNB', sym: 'B', color: '#F3BA2F', ink: '#1C274C', buy: 2908.34, sell: 2737.15, ch: 0.5, isNew: true }
   ];
   const byCode = c => coins.find(x => x.code === c);
+  /* tradable assets as on the live calculator: the same coin can exist in several networks */
+  const NETS = { TRC20: ['T', '#EB0029'], ERC20: ['E', '#627EEA'], BEP20: ['B', '#F3BA2F'] };
+  const ASSETS = [
+    { id: 'USDT', base: 'USDT', net: 'TRC20' }, { id: 'USDC', base: 'USDC', net: 'ERC20' }, { id: 'SOL', base: 'SOL' },
+    { id: 'ETH', base: 'ETH', net: 'ERC20' }, { id: 'USDT-BEP20', base: 'USDT', net: 'BEP20' }, { id: 'BTC', base: 'BTC' },
+    { id: 'BNB', base: 'BNB', net: 'BEP20' }, { id: 'USDT-ERC20', base: 'USDT', net: 'ERC20' }
+  ];
+  const asset = id => { const a = ASSETS.find(x => x.id === id) || { id, base: id }; return Object.assign({}, byCode(a.base), { id: a.id, net: a.net }); };
+  const coinIcon = c => `<span class="coin" style="background:${c.color};color:${c.ink || '#fff'}">${c.sym}${c.net ? `<i class="netb" style="background:${NETS[c.net][1]}" title="${c.net}">${NETS[c.net][0]}</i>` : ''}</span>`;
   coins.forEach((c, i) => { let v = 0; c.spark = Array.from({ length: 24 }, (_, k) => (v += Math.sin(k * 1.3 + i) * .8 + Math.cos(k * .5 + i * 2) * .5 + c.ch * .12)); });
   const pl = (n, d) => n.toLocaleString('pl-PL', { minimumFractionDigits: d, maximumFractionDigits: d });
   const fmtPLN = n => pl(n, n < 10 ? 4 : 2) + ' zł';
@@ -1204,17 +1303,47 @@ section.blk .prose h2 { margin: 0; color: var(--ink); font-size: clamp(26px, 2.6
   const giveBox = document.getElementById('giveBox');
   const pill = document.querySelector('.tabs .pill');
   const opts = sel => coins.map(c => `<option value="${c.code}"${c.code === sel ? ' selected' : ''}>${c.code}</option>`).join('');
-  const coinBadge = c => `<span class="coin" style="background:${c.color};color:${c.ink || '#fff'}">${c.sym}</span>${c.code}`;
+  const coinBadge = c => coinIcon(c) + `<span class="cur-t">${c.code}${c.net ? `<small>${c.net}</small>` : ''}</span>`;
   function curPill(el, code, key) {
+    const chev = `<svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>`;
     if (!code) {
       const F = FIAT[state.fiat];
-      el.innerHTML = `<span class="coin ${F.cls}"></span>${state.fiat}<svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg><select aria-label="Wybierz walutę">${fiatOpts(state.fiat)}</select>`;
-      el.querySelector('select').addEventListener('change', e => { state.fiat = e.target.value; if (state.mode === 'buy') giveIn.value = FIAT[state.fiat].def; render(); });
+      el.innerHTML = `<span class="coin ${F.cls}"></span><span class="cur-t">${state.fiat}</span>${chev}<button type="button" class="cur-hit" aria-label="Waluta: ${F.name}. Zmień"></button>`;
+      el.querySelector('.cur-hit').addEventListener('click', e => openPicker(fiatItems(), state.fiat, v => { state.fiat = v; if (state.mode === 'buy') giveIn.value = FIAT[v].def; render(); }, e.currentTarget));
       return;
     }
-    el.innerHTML = coinBadge(byCode(code)) + `<svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg><select aria-label="Wybierz kryptowalutę">${opts(code)}</select>`;
-    el.querySelector('select').addEventListener('change', e => { state[key] = e.target.value; render(); });
+    const c = asset(code);
+    el.innerHTML = coinBadge(c) + chev + `<button type="button" class="cur-hit" aria-label="Kryptowaluta: ${c.name}${c.net ? ' ' + c.net : ''}. Zmień"></button>`;
+    el.querySelector('.cur-hit').addEventListener('click', e => openPicker(coinItems(), code, v => { state[key] = v; render(); }, e.currentTarget));
   }
+  /* currency picker: search + list, same pattern as the live site */
+  const fiatItems = () => Object.keys(FIAT).map(k => ({ id: k, name: FIAT[k].name, sub: k, icon: `<span class="coin ${FIAT[k].cls}"></span>` }));
+  const coinItems = () => ASSETS.map(a => { const c = asset(a.id); return { id: a.id, name: c.name, sub: c.code + (c.net ? ' · ' + c.net : ''), icon: coinIcon(c) }; });
+  const pk = document.getElementById('picker'), pkQ = document.getElementById('pkQ'), pkList = document.getElementById('pkList'), pkEmpty = document.getElementById('pkEmpty');
+  let pkItems = [], pkSel = null, pkCb = null, pkBack = null;
+  const norm = x => x.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[\s·\-]/g, '');
+  function pkRender() {
+    const q = norm(pkQ.value);
+    const list = pkItems.filter(i => !q || norm(i.name + i.sub + i.id).includes(q));
+    pkList.innerHTML = list.map(i => `<button type="button" role="option" class="pk-it" data-id="${i.id}" aria-selected="${i.id === pkSel}">${i.icon}<span><b>${i.name}</b><small>${i.sub}</small></span></button>`).join('');
+    pkEmpty.hidden = list.length > 0;
+  }
+  function openPicker(items, selected, cb, back, title, ph) {
+    document.getElementById('pkT').textContent = title || 'Wybierz walutę'; pkQ.placeholder = ph || 'Szukaj waluty'; pkQ.setAttribute('aria-label', pkQ.placeholder);
+    pkItems = items; pkSel = selected; pkCb = cb; pkBack = back; pkQ.value = ''; pkRender();
+    pk.showPopover();
+    if (matchMedia('(pointer: fine)').matches) pkQ.focus(); else pkList.querySelector('[aria-selected="true"]')?.focus({ preventScroll: true });
+  }
+  pkQ.addEventListener('input', pkRender);
+  pkList.addEventListener('click', e => { const b = e.target.closest('.pk-it'); if (!b) return; pk.hidePopover(); pkCb && pkCb(b.dataset.id); });
+  pk.addEventListener('keydown', e => {
+    const its = [...pkList.querySelectorAll('.pk-it')]; if (!its.length) return;
+    const i = its.indexOf(document.activeElement);
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); its[Math.min(its.length - 1, i + 1)].focus(); }
+    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { if (i <= 0) { if (i === 0) { e.preventDefault(); pkQ.focus(); } return; } e.preventDefault(); its[i - 1].focus(); }
+    if (e.key === 'Enter' && document.activeElement === pkQ) { e.preventDefault(); its[0].click(); }
+  });
+  pk.addEventListener('toggle', e => { if (e.newState === 'closed' && pkBack) pkBack.focus({ preventScroll: true }); });
   function parse(v) { return parseFloat(String(v).replace(/\s/g, '').replace(',', '.')) || 0; }
   let shown = 0, raf;
   /* amounts always fully visible: shrink the font until the number fits */
@@ -1236,9 +1365,9 @@ section.blk .prose h2 { margin: 0; color: var(--ink); font-size: clamp(26px, 2.6
     let out = 0, fmt = fmtCrypto, line = '', pln = 0;
     const F = FIAT[state.fiat], k = F.perPln;
     let min = 300, minTxt = '300 zł';
-    if (state.mode === 'buy') { const c = byCode(state.coin); out = a / (c.buy * k); pln = a; min = F.min; minTxt = fmtFiat(F.min, state.fiat).replace(/,00 /, ' '); line = `1 ${c.code} = ${fmtFiat(c.buy * k, state.fiat)}`; }
-    if (state.mode === 'sell') { const c = byCode(state.coin); out = a * c.sell * k; pln = out; min = F.min; minTxt = fmtFiat(F.min, state.fiat).replace(/,00 /, ' '); fmt = n => pl(n, 2); line = `1 ${c.code} = ${fmtFiat(c.sell * k, state.fiat)}`; }
-    if (state.mode === 'swap') { const f = byCode(state.from), t = byCode(state.to); out = a * f.sell / t.buy; pln = a * f.sell; line = `1 ${f.code} = ${fmtCrypto(f.sell / t.buy)} ${t.code}`; }
+    if (state.mode === 'buy') { const c = asset(state.coin); out = a / (c.buy * k); pln = a; min = F.min; minTxt = fmtFiat(F.min, state.fiat).replace(/,00 /, ' '); line = `1 ${c.code} = ${fmtFiat(c.buy * k, state.fiat)}`; }
+    if (state.mode === 'sell') { const c = asset(state.coin); out = a * c.sell * k; pln = out; min = F.min; minTxt = fmtFiat(F.min, state.fiat).replace(/,00 /, ' '); fmt = n => pl(n, 2); line = `1 ${c.code} = ${fmtFiat(c.sell * k, state.fiat)}`; }
+    if (state.mode === 'swap') { const f = asset(state.from), t = asset(state.to); out = a * f.sell / t.buy; pln = a * f.sell; line = `1 ${f.code} = ${fmtCrypto(f.sell / t.buy)} ${t.code}`; }
     rateLine.textContent = line;
     const low = a > 0 && pln < min;
     cta.disabled = low || a <= 0;
@@ -1252,6 +1381,7 @@ section.blk .prose h2 { margin: 0; color: var(--ink); font-size: clamp(26px, 2.6
     const idx = ['buy', 'sell', 'swap'].indexOf(m);
     pill.style.translate = `${idx * 100}% 0`;
     document.querySelectorAll('.tabs button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.mode === m)));
+    document.getElementById('methodL').textContent = m === 'sell' ? 'Metoda otrzymania płatności' : 'Metoda wysyłki płatności';
     if (m === 'buy') { curPill(giveCur, null); curPill(getCur, state.coin, 'coin'); cta.textContent = 'Kup teraz'; }
     if (m === 'sell') { curPill(giveCur, state.coin, 'coin'); curPill(getCur, null); cta.textContent = 'Sprzedaj teraz'; }
     if (m === 'swap') { curPill(giveCur, state.from, 'from'); curPill(getCur, state.to, 'to'); cta.textContent = 'Wymień teraz'; }
@@ -1274,18 +1404,31 @@ section.blk .prose h2 { margin: 0; color: var(--ink); font-size: clamp(26px, 2.6
   addEventListener('resize', () => { fitAmt(giveIn); fitAmt(getIn); });
   if (document.fonts) document.fonts.ready.then(() => { fitAmt(giveIn); fitAmt(getIn); });
   const mLogo = document.getElementById('mLogo'), mName = document.getElementById('mName');
-  const M = { wu: ['WU', '#FFDD00', '#000', 'Western Union'], ria: ['RIA', '#F37021', '#fff', 'RIA'], card: ['VISA', '#1A1F71', '#fff', 'Visa / Mastercard'], swift: ['SW', '#0B1A26', '#fff', 'SWIFT'], cash: ['zł', '#0A8459', '#fff', 'Gotówka'] };
-  document.getElementById('method').addEventListener('change', e => { const m = M[e.target.value]; mLogo.textContent = m[0]; mLogo.style.background = m[1]; mLogo.style.color = m[2]; mName.textContent = m[3]; });
+  /* payment methods: same searchable picker as currencies */
+  const METHODS = [
+    { id: 'wu', logo: 'WU', bg: '#FFDD00', fg: '#000', name: 'Western Union', sub: 'Przekaz pieniężny' },
+    { id: 'mg', logo: 'MG', bg: '#DA291C', fg: '#fff', name: 'MoneyGram', sub: 'Przekaz pieniężny' },
+    { id: 'ria', logo: 'RIA', bg: '#F37021', fg: '#fff', name: 'RIA', sub: 'Przekaz pieniężny' },
+    { id: 'card', logo: 'VISA', bg: '#1A1F71', fg: '#fff', name: 'Visa / Mastercard', sub: 'Karta płatnicza' },
+    { id: 'swift', logo: 'SW', bg: '#0B1A26', fg: '#fff', name: 'SWIFT', sub: 'Przelew bankowy' },
+    { id: 'cash', logo: 'zł', bg: '#0A8459', fg: '#fff', name: 'Gotówka', sub: 'Wypłata gotówkowa' }
+  ];
+  let methodId = 'wu';
+  const mIcon = m => `<span class="logo-m" style="background:${m.bg};color:${m.fg}">${m.logo}</span>`;
+  function paintMethod() { const m = METHODS.find(x => x.id === methodId); mLogo.textContent = m.logo; mLogo.style.background = m.bg; mLogo.style.color = m.fg; mName.textContent = m.name; }
+  document.getElementById('methodBtn').addEventListener('click', e => openPicker(METHODS.map(m => ({ id: m.id, name: m.name, sub: m.sub, icon: mIcon(m) })), methodId, v => { methodId = v; paintMethod(); }, e.currentTarget, 'Wybierz metodę płatności', 'Szukaj metody płatności'));
   document.getElementById('calc').addEventListener('submit', e => { e.preventDefault(); toast('В прототипе: здесь откроется /x/login, затем оформление заявки'); });
   render();
 
 
   /* closing quick calculator: live estimate, then hands the amount to the main calculator */
-  const qFiat = document.getElementById('qFiat');
-  const qAmt = document.getElementById('qAmt'), qOut = document.getElementById('qOut'), qCoin = document.getElementById('qCoin'), qGo = document.getElementById('qGo'), qNote = document.getElementById('qNote');
+  const qFiatB = document.getElementById('qFiatB'), qCoinB = document.getElementById('qCoinB');
+  const qs = { fiat: 'PLN', coin: 'BTC' };
+  function qPaint() { const c = asset(qs.coin); qFiatB.innerHTML = `<span class="coin ${FIAT[qs.fiat].cls}"></span>${qs.fiat}`+'<svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>'; qCoinB.innerHTML = coinIcon(c) + c.code + (c.net ? `<small>${c.net}</small>` : '') + '<svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>'; }
+  const qAmt = document.getElementById('qAmt'), qOut = document.getElementById('qOut'), qGo = document.getElementById('qGo'), qNote = document.getElementById('qNote');
   let qLast = '';
   function quick(flash) {
-    const a = parse(qAmt.value), c = byCode(qCoin.value), F = FIAT[qFiat.value];
+    const a = parse(qAmt.value), c = asset(qs.coin), F = FIAT[qs.fiat];
     const v = fmtCrypto(a / (c.buy * F.perPln));
     if (v !== qLast) { qOut.textContent = v; qOut.style.fontSize = ''; if (qOut.scrollWidth > qOut.clientWidth) qOut.style.fontSize = Math.max(15, 26 * qOut.clientWidth / qOut.scrollWidth).toFixed(1) + 'px'; if (flash && motion) { qOut.classList.remove('tick'); void qOut.offsetWidth; qOut.classList.add('tick'); } qLast = v; }
     const low = a < F.min, minTxt = pl(F.min, 0) + ' ' + F.suf;
@@ -1294,13 +1437,14 @@ section.blk .prose h2 { margin: 0; color: var(--ink); font-size: clamp(26px, 2.6
     qNote.classList.toggle('bad', low && a > 0);
   }
   qAmt.addEventListener('input', () => quick(false));
-  qCoin.addEventListener('change', () => quick(true));
-  qFiat.addEventListener('change', () => { qAmt.value = FIAT[qFiat.value].def; quick(true); });
+  qCoinB.addEventListener('click', e => openPicker(coinItems(), qs.coin, v => { qs.coin = v; qPaint(); quick(true); }, e.currentTarget));
+  qFiatB.addEventListener('click', e => openPicker(fiatItems(), qs.fiat, v => { qs.fiat = v; qAmt.value = FIAT[v].def; qPaint(); quick(true); }, e.currentTarget));
+  qPaint();
   setInterval(() => quick(true), 1000);
   quick(false);
   document.getElementById('qxForm').addEventListener('submit', e => {
     e.preventDefault(); if (qGo.disabled) return;
-    state.mode = 'buy'; state.coin = qCoin.value; state.fiat = qFiat.value; giveIn.value = qAmt.value; render();
+    state.mode = 'buy'; state.coin = qs.coin; state.fiat = qs.fiat; giveIn.value = qAmt.value; render();
     const calcEl = document.getElementById('calc');
     calcEl.scrollIntoView({ behavior: motion ? 'smooth' : 'auto', block: 'center' });
     setTimeout(() => { calcEl.classList.remove('ping'); void calcEl.offsetWidth; calcEl.classList.add('ping'); giveIn.focus({ preventScroll: true }); }, motion ? 650 : 0);
