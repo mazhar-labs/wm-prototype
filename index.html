@@ -47,6 +47,7 @@
   color-scheme: dark; }
 
 * { box-sizing: border-box; }
+html, body { overflow-x: clip; }
 body { margin: 0; background: var(--bg); color: var(--ink); font: 400 16px/1.5 var(--f); }
 a { color: inherit; text-decoration: none; }
 button, input, select { font: inherit; color: inherit; }
@@ -826,6 +827,102 @@ section.blk .prose h2 { margin: 0; color: var(--ink); font-size: clamp(26px, 2.6
 .lg-duo svg { width: 36px; height: 44px; }
 .logos button { align-items: center; }
 
+
+/* ===== signature 1: kantor receipt (kwit) ===== */
+#kwit { position: fixed; inset: 0; margin: auto; width: min(420px, calc(100vw - 24px)); height: fit-content; max-height: calc(100vh - 24px); overflow: visible; }
+#kwit::backdrop { background: rgba(11,26,38,0); transition: background .3s, display .3s allow-discrete, overlay .3s allow-discrete; }
+#kwit:popover-open::backdrop { background: rgba(11,26,38,.55); }
+@starting-style { #kwit:popover-open::backdrop { background: rgba(11,26,38,0); } }
+.kw-wrap { position: relative; padding-top: 14px; }
+.kw-slot { position: absolute; top: 0; left: -10px; right: -10px; height: 22px; border-radius: 12px; background: linear-gradient(#22303D, #0B1A26); box-shadow: 0 10px 24px rgba(0,0,0,.35), inset 0 -3px 0 rgba(0,0,0,.4); z-index: 2; }
+.kw-slot::after { content: ""; position: absolute; left: 16px; right: 16px; bottom: 5px; height: 3px; border-radius: 2px; background: #05090D; }
+.kw-feed { position: relative; overflow: hidden; padding: 0 0 18px; max-height: calc(100vh - 60px); overflow-y: auto; scrollbar-width: none; }
+.kw-paper { position: relative; padding: 26px 24px 30px; color: #1B2530; background: #FFFDF6; background-image: radial-gradient(rgba(0,0,0,.025) 1px, transparent 1px); background-size: 4px 4px; box-shadow: 0 18px 40px rgba(0,0,0,.25);
+  -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 16px 100%; mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 16px 100%; }
+#kwit:popover-open .kw-paper { animation: kwPrint 1.25s cubic-bezier(.3,.1,.3,1) both; }
+@keyframes kwPrint { 0% { translate: 0 -100%; } 18% { translate: 0 -78%; } 24% { translate: 0 -76%; } 46% { translate: 0 -44%; } 52% { translate: 0 -42%; } 74% { translate: 0 -14%; } 80% { translate: 0 -12%; } 100% { translate: 0 0; } }
+.kw-x { position: absolute; top: 12px; right: 12px; width: 34px; height: 34px; padding: 0; border: 0; border-radius: 50%; background: rgba(27,37,48,.06); color: #1B2530; display: grid; place-items: center; cursor: pointer; }
+.kw-hd { display: flex; align-items: center; gap: 12px; }
+.kw-hd b { display: block; font-size: 18px; font-weight: 700; letter-spacing: .02em; }
+.kw-hd small { font-size: 12px; color: #5A6872; }
+.kw-logo svg { width: 34px; height: 41px; display: block; }
+.kw-meta { display: flex; justify-content: space-between; gap: 10px; margin-top: 14px; font-size: 12px; color: #5A6872; font-variant-numeric: tabular-nums; }
+.kw-meta b { font-weight: 500; color: #1B2530; }
+.kw-cut { margin: 16px -24px; border-top: 2px dashed rgba(27,37,48,.18); }
+.kw-op { display: inline-block; padding: 3px 10px; border-radius: 6px; background: #1B2530; color: #FFFDF6; font-size: 12px; letter-spacing: .14em; }
+.kw-rows { margin: 12px 0 0; display: flex; flex-direction: column; gap: 8px; }
+.kw-rows div { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+.kw-rows dt { font-size: 13px; color: #5A6872; }
+.kw-rows dd { margin: 0; font-size: 15px; font-weight: 500; text-align: right; font-variant-numeric: tabular-nums; }
+.kw-rows .kw-big { padding: 8px 0; border-top: 1px dotted rgba(27,37,48,.25); border-bottom: 1px dotted rgba(27,37,48,.25); }
+.kw-rows .kw-big dd { font-size: 22px; color: #0A7C55; }
+.kw-note { margin: 0; font-size: 12px; line-height: 1.5; color: #5A6872; }
+.kw-foot { position: relative; display: flex; align-items: center; justify-content: space-between; margin-top: 16px; min-height: 74px; }
+.kw-bar { width: 150px; height: 38px; background: repeating-linear-gradient(90deg, #1B2530 0 2px, transparent 2px 4px, #1B2530 4px 5px, transparent 5px 8px, #1B2530 8px 11px, transparent 11px 12px); opacity: .85; }
+.kw-stamp { position: absolute; right: 0; top: -6px; width: 92px; height: 92px; border-radius: 50%; border: 2.5px solid #0A8459; color: #0A8459; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; font-size: 8px; font-weight: 700; letter-spacing: .12em; rotate: -14deg; opacity: .85; box-shadow: inset 0 0 0 3px #FFFDF6, inset 0 0 0 4px #0A8459; }
+.kw-stamp svg { width: 26px; height: 32px; stroke: #0A8459; stroke-width: 1.4; }
+#kwit:popover-open .kw-stamp { animation: kwStamp .45s cubic-bezier(.2,1.6,.4,1) 1.35s both; }
+@keyframes kwStamp { 0% { scale: 1.9; opacity: 0; rotate: -30deg; } 60% { opacity: .95; } 100% { scale: 1; opacity: .85; rotate: -14deg; } }
+.kw-acts { display: flex; flex-direction: column; gap: 8px; margin-top: 18px; }
+.kw-acts .btn { width: 100%; height: 50px; font-size: 16px; }
+.kw-sec { background: transparent; color: #1B2530; border: 1px solid rgba(27,37,48,.2); }
+.kw-sec:hover { background: rgba(27,37,48,.05); }
+:root[data-motion="off"] .kw-paper, :root[data-motion="off"] .kw-stamp { animation: none !important; }
+
+
+.cta-col { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.save-q { display: none; align-items: center; gap: 6px; height: 32px; padding: 0 10px; border: 0; border-radius: 999px; background: transparent; color: var(--accent); font-size: var(--t-sm); cursor: pointer; }
+.save-q:hover { background: var(--field); }
+.x-kwit .save-q { display: inline-flex; }
+.kw-warn { margin: 12px 0 0; padding: 6px 10px; border-radius: 8px; background: rgba(27,37,48,.06); font-size: 12px; font-weight: 500; color: #1B2530; text-align: center; letter-spacing: .02em; }
+.kw-valid { max-width: 210px; font-size: 12px; line-height: 1.45; color: #5A6872; }
+@media (max-width: 860px) { .cta-col { align-items: stretch; } .save-q { justify-content: center; } }
+/* ===== signature 2: mane-line motif ===== */
+section.blk { position: relative; }
+.mane-div { position: absolute; top: 0; left: 50%; translate: -50% -3px; width: min(1248px, 100% - 32px); display: flex; align-items: flex-start; gap: 0; pointer-events: none; color: color-mix(in srgb, var(--accent) 55%, var(--line)); }
+.mane-div i { flex: 1; height: 1.5px; margin-top: 2.25px; background: currentColor; opacity: .55; transform-origin: right; }
+.mane-div i:last-child { transform-origin: left; }
+.mane-div svg { width: 120px; height: 32px; flex: none; }
+.mane-div path { stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; }
+@supports (animation-timeline: view()) {
+  .mane-div i { animation: maneLine linear both; animation-timeline: view(); animation-range: entry 10% cover 40%; }
+  .mane-div path { animation: maneDraw linear both; animation-timeline: view(); animation-range: entry 20% cover 45%; }
+}
+@keyframes maneLine { from { scale: 0 1; } }
+@keyframes maneDraw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+.hero-art { position: absolute; left: 0; right: 0; top: 0; height: 760px; overflow: hidden; pointer-events: none; }
+.hero-art svg { position: absolute; right: calc(max(0px, (100% - 1280px) / 2) - 40px); top: 0; width: 520px; height: 630px; color: var(--accent); opacity: .09; }
+.hero-art path { stroke: currentColor; stroke-width: .35; stroke-linecap: round; stroke-linejoin: round; animation: heroDraw 2.6s .2s var(--ease) both; }
+@keyframes heroDraw { 0% { stroke-dasharray: 1 1; stroke-dashoffset: 1; } 99% { stroke-dasharray: 1 1; stroke-dashoffset: 0; } 100% { stroke-dasharray: none; stroke-dashoffset: 0; } }
+:root[data-motion="off"] .hero-art path { stroke-dasharray: none; }
+main#home { position: relative; }
+main#home > .wrap.hero { position: relative; }
+:root:not(.x-mane) .mane-div, :root:not(.x-mane) .hero-art { display: none; }
+
+/* ===== signature 3: living lion ===== */
+.calc { position: relative; }
+.lion-seal { position: absolute; top: -40px; right: 26px; width: 46px; height: 56px; filter: drop-shadow(0 8px 14px rgba(11,26,38,.22)); transition: rotate .4s var(--ease); z-index: 2; }
+.lion-seal svg { width: 100%; height: 100%; display: block; }
+.lion-seal.nod { animation: nod .6s var(--ease); }
+@keyframes nod { 30% { rotate: -6deg; translate: 0 2px; } 65% { rotate: 3deg; } }
+.lion-eyes { transform-box: fill-box; transform-origin: center; transform: translate(var(--ex, 0px), var(--ey, 0px)) scaleY(var(--es, 1)); transition: transform .12s linear; }
+:root:not(.x-lion) .lion-seal { display: none; }
+@media (max-width: 860px) {
+  .lion-seal { display: none !important; }
+  .kw-rows .kw-big dd { font-size: 18px; }
+  .hero-art svg { width: 360px; height: 436px; right: -120px; top: 30px; opacity: .07; }
+  .mane-div { width: calc(100% - 32px); }
+  .mane-div svg { width: 90px; height: 24px; }
+  .mane-div i { margin-top: 1.5px; }
+  #kwit { inset: auto 0 0 0; width: 100%; margin: 0; }
+  .kw-wrap { padding: 14px 12px 0; }
+  .kw-slot { left: 2px; right: 2px; }
+}
+
+
+.stepper li { cursor: pointer; }
+.stepper li:not([aria-current]):hover { border-color: var(--accent); color: var(--ink); scale: 1.06; }
+.stepper li:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 /* ===== design tokens: one type scale + one spacing rhythm (overrides earlier ad-hoc values) ===== */
 :root {
   --t-cap: 12px; --t-sm: 14px; --t-body: 16px; --t-lead: 18px;
@@ -876,6 +973,7 @@ section.blk .sub { margin-top: 8px; }
     <label style="display:inline-flex;align-items:center;gap:6px">Логотип <select id="logoSel"><option value="blue">текущий синий</option><option value="emerald">изумрудный щит</option><option value="gradient">мятный градиент</option><option value="adaptive">графит, адаптивный</option><option value="mono">монолиния</option></select></label>
     <button class="toggle" type="button" popovertarget="pal">Палитра</button>
     <button class="toggle tool-phone" type="button" popovertarget="phone">Телефон</button>
+    <button class="toggle xt" type="button" data-x="kwit" aria-pressed="true">Расчёт (wycena) <i></i></button><button class="toggle xt" type="button" data-x="mane" aria-pressed="true">Узор гривы <i></i></button><button class="toggle xt" type="button" data-x="lion" aria-pressed="true">Живой лев <i></i></button>
     <button class="toggle" id="motionT" type="button" aria-pressed="true">Анимации <i></i></button>
     <button class="toggle" id="themeT" type="button" aria-pressed="false">Тёмная тема <i></i></button>
   </div>
@@ -898,6 +996,7 @@ section.blk .sub { margin-top: 8px; }
 </header>
 
 <main id="home" class="page">
+  <div class="hero-art" aria-hidden="true"><svg viewBox="0 0 47 57" fill="none"><path pathLength="1"  stroke-miterlimit="10" d="m2.09 1 42.83.01c.6 0 1.07.48 1.07 1.08v36.46c0 .65-.3 1.26-.8 1.65L24.01 55.67c-.57.44-1.36.44-1.92 0L1.89 40.3c-.52-.4-.82-1-.82-1.65L1 2.08C1.01 1.48 1.5 1 2.1 1Z"/><path pathLength="1"  stroke-linecap="round" stroke-miterlimit="10" d="m18.33 1.06 4.1 3.14c.39.3.92.3 1.3 0L27.86 1"/><path pathLength="1"  stroke-linecap="round" stroke-miterlimit="10" d="M6.41 1.05 22.43 11.8c.4.26.92.26 1.31 0L39.81 1.02"/><path pathLength="1"  stroke-linecap="round" stroke-miterlimit="10" d="M15.77 7.37s-3.7 2.1-5.6 4.66a2.7 2.7 0 0 0 .97 4.04c1.11.53 2.89 1.08 5.4 2.25 1.4.66 2.75 2.81 2.02 5.86-.12.47-.22.94-.37 1.91-.2 1.27.85 2.4 2.13 2.25q.43-.04.97-.17c1.02-.24 2.3-.47 4.82-.07q.24.04.53.06a2.12 2.12 0 0 0 2.27-2.42 9 9 0 0 0-.51-1.77c-.6-1.52-.32-4.6 3.17-5.72.95-.3 2-.37 3.7-1.49a3.1 3.1 0 0 0 .85-4.3 21 21 0 0 0-5.52-5.27"/><path pathLength="1"  stroke-linecap="round" stroke-miterlimit="10" d="M10.82 15.9s-.12.73-1.25 2.68c-.5.84-.7 1.84-.52 2.8.18.92.64 2.07 1.72 3.32.89 1.02 1.66 2.15.82 5.18-.38 1.34-.26 3.35 1.15 5.45a5.4 5.4 0 0 0 5.29 2.27 6.5 6.5 0 0 0 4.7-3.22c.56-.89.1-2.14-2.08-3.63-1.03-.7-2.58-2.05-2.48-4.32M36.19 15.9s.1.73 1.25 2.68c.5.84.7 1.84.51 2.8a7 7 0 0 1-1.72 3.32c-.88 1.02-1.66 2.15-.81 5.18.37 1.34.25 3.35-1.16 5.45a5.4 5.4 0 0 1-5.29 2.27 6.5 6.5 0 0 1-4.7-3.22c-.55-.89-.1-2.14 2.09-3.63 1.03-.7 2.67-2.5 2.57-4.77"/><path pathLength="1"  stroke-linecap="round" stroke-miterlimit="10" d="M16.14 37.66s.9 3.6 6.5 6.41q.47.22.94 0c1.43-.73 5.73-3.17 6.27-6.41M10.82 15.92s2.57 5.33 7.8 5.33m9.76-.03s6.35.58 7.76-5.23m-25.5.41s-7.34-.1-9.55 2.92m10.75 7.47S3.79 28.58 1.07 37.17m15.05.38s-7.43 3.82-2.4 11.75m22.66-32.9s7.34-.1 9.55 2.92m-10.75 7.47s8.05 1.79 10.78 10.38m-15.06.38s6.6 3.98 2.32 11.4"/></svg></div>
   <div class="wrap hero">
     <div class="copy">
       <span class="badge"><span class="dot" aria-hidden="true"></span>Kantor kryptowalut · online 24/7</span>
@@ -906,6 +1005,7 @@ section.blk .sub { margin-top: 8px; }
 
       <div class="ticker" aria-label="Kursy kryptowalut, kupno"><div class="tk-track" id="tickerTrack" translate="no"></div></div>
       <form class="calc" id="calc" novalidate>
+        <span class="lion-seal" id="lionSeal" aria-hidden="true"></span>
         <div class="calc-top">
           <div class="tabs" role="tablist" aria-label="Kierunek wymiany">
             <span class="pill" aria-hidden="true"></span>
@@ -940,7 +1040,7 @@ section.blk .sub { margin-top: 8px; }
         </div>
         <div class="calc-foot">
           <p><span id="rateLine" class="rate num" translate="no"></span><br><span id="hint">Od 300 zł · kurs ustalamy w chwili zaksięgowania</span></p>
-          <button class="btn cta" type="submit" id="cta">Kup teraz</button>
+          <div class="cta-col"><button class="btn cta" type="submit" id="cta">Kup teraz</button><button type="button" class="save-q" id="saveQ"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h10v18l-2.5-1.5L12 21l-2.5-1.5L7 21z"/><path d="M10 8h4M10 12h4"/></svg>Zapisz wycenę</button></div>
         </div>
         <p class="calc-iso"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6l8-3z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>Transakcje na infrastrukturze z certyfikatem ISO/IEC 27001</p>
       </form>
@@ -960,7 +1060,7 @@ section.blk .sub { margin-top: 8px; }
     <div class="wrap">
       <div class="how-head">
         <div><h2 id="howH">Jak to działa</h2><p class="sub">Trzy kroki do pierwszej wymiany. Zwykle zajmuje to kilka minut.</p></div>
-        <ol class="stepper" aria-label="Postęp"><li aria-current="step">1</li><li>2</li><li>3</li></ol>
+        <ol class="stepper" aria-label="Kroki"><li aria-current="step" tabindex="0" role="button" aria-label="Krok 1: Rejestracja" title="Rejestracja">1</li><li tabindex="0" role="button" aria-label="Krok 2: Weryfikacja" title="Weryfikacja">2</li><li tabindex="0" role="button" aria-label="Krok 3: Wymiana" title="Wymiana">3</li></ol>
       </div>
       <ol class="stack"><li class="scard" style="--i:0; --c: var(--s1)"><div class="sc-art" aria-hidden="true"><div class="mock m-reg"><div class="m-title">Rejestracja</div>
 <div class="m-f"><span>E-mail</span><b class="typed" data-text="anna@przyklad.pl"></b><i class="caret"></i></div>
@@ -1182,6 +1282,33 @@ section.blk .sub { margin-top: 8px; }
 </div>
 <template id="lg-var"><svg class="lgv" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 47 57"><defs><linearGradient id="lgGrad" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0" stop-color="#34D49D"/><stop offset="1" stop-color="#0A8459"/></linearGradient></defs><path style="fill:var(--lg-sh)" d="m2.08 1 42.83.01c.6 0 1.07.48 1.07 1.08v36.46c0 .65-.3 1.26-.8 1.65L24 55.67c-.57.44-1.36.44-1.93 0L1.88 40.3c-.52-.4-.82-1-.82-1.65L1 2.08C1 1.48 1.48 1 2.08 1"/><path style="fill:var(--lg-face)" d="M15.66 7.28c-.94.96-2.24 1.48-3.22 2.38-1.1 1-2.18 1.99-2.58 3-.45 1.13-.14 2.5.83 3.16.14.1.15.29.06.44-1.27 2.42-2.94 4.77-.34 8 .58.7 1.13 1.35 1.4 2.23.32.97.05 2.31-.25 3.3-.5 1.64-.04 3.28.74 4.82.77 1.55 2.24 2.88 3.84 2.88.48 2.46 2.73 4.06 4.76 5.53.3.22.76.53 1.19.82.63.42 1.45.42 2.08 0l1.03-.69c2.03-1.38 4.22-3.02 4.62-5.44 3.6-.28 5.57-2.94 5.71-5.94.1-1.94-.9-3.61-.23-5.44.42-1.12 1.53-2.34 2.08-3.4.71-1.38.8-3.17-.02-4.48-.5-.81-1.17-2.55-1.17-2.55s.47-1.1.46-1.76c-.02-1.21-.78-2.05-1.54-2.99a17 17 0 0 0-2.6-2.56l-1.84-1.35s-1.6.94-2.26 1.42c-1.1.8-2.25 1.4-3.34 2.2-.59.42-1.32 1.12-2.04 1.13-.68 0-1.19-.65-1.76-1.03a470 470 0 0 0-5.61-3.68"/><path style="fill:var(--lg-face)" d="M15.66 7.28c-.94.96-2.24 1.48-3.22 2.38-1.1 1-2.18 1.99-2.58 3-.45 1.13-.14 2.5.83 3.16.14.1.15.29.06.44-1.27 2.42-2.94 4.77-.34 8 .58.7 1.13 1.35 1.4 2.23.32.97.05 2.31-.25 3.3-.5 1.64-.04 3.28.74 4.82.77 1.55 2.24 2.88 3.84 2.88.48 2.46 2.73 4.06 4.76 5.53.3.22.76.53 1.19.82.63.42 1.45.42 2.08 0l1.03-.69c2.03-1.38 4.22-3.02 4.62-5.44 3.6-.28 5.57-2.94 5.71-5.94.1-1.94-.9-3.61-.23-5.44.42-1.12 1.53-2.34 2.08-3.4.71-1.38.8-3.17-.02-4.48-.5-.81-1.17-2.55-1.17-2.55s.47-1.1.46-1.76c-.02-1.21-.78-2.05-1.54-2.99a17 17 0 0 0-2.6-2.56l-1.84-1.35s-1.6.94-2.26 1.42c-1.1.8-2.25 1.4-3.34 2.2-.59.42-1.32 1.12-2.04 1.13-.68 0-1.19-.65-1.76-1.03a470 470 0 0 0-5.61-3.68"/><path style="fill:var(--lg-acc)" d="M28.44 21.21c.17-1.07 1.01-1.93 1.96-2.45.95-.51 2.02-.77 3.04-1.12a5.6 5.6 0 0 0 2.71-1.7 6.6 6.6 0 0 1-3.9 4.7 9 9 0 0 1-3.8.57m-17.57-5.26q.42.82.97 1.56a10 10 0 0 0 2.94 2.68 7.5 7.5 0 0 0 3.82 1.04A5 5 0 0 0 17.36 19a6 6 0 0 0-1.84-1.05z"/><path style="stroke:var(--lg-edge)" stroke-miterlimit="10" d="m2.09 1 42.83.01c.6 0 1.07.48 1.07 1.08v36.46c0 .65-.3 1.26-.8 1.65L24.01 55.67c-.57.44-1.36.44-1.92 0L1.89 40.3c-.52-.4-.82-1-.82-1.65L1 2.08C1.01 1.48 1.5 1 2.1 1Z"/><path style="stroke:var(--lg-crown)" stroke-linecap="round" stroke-miterlimit="10" d="m18.33 1.06 4.1 3.14c.39.3.92.3 1.3 0L27.86 1"/><path style="stroke:var(--lg-crown)" stroke-linecap="round" stroke-miterlimit="10" d="M6.41 1.05 22.43 11.8c.4.26.92.26 1.31 0L39.81 1.02"/><path style="stroke:var(--lg-line)" stroke-linecap="round" stroke-miterlimit="10" d="M15.77 7.37s-3.7 2.1-5.6 4.66a2.7 2.7 0 0 0 .97 4.04c1.11.53 2.89 1.08 5.4 2.25 1.4.66 2.75 2.81 2.02 5.86-.12.47-.22.94-.37 1.91-.2 1.27.85 2.4 2.13 2.25q.43-.04.97-.17c1.02-.24 2.3-.47 4.82-.07q.24.04.53.06a2.12 2.12 0 0 0 2.27-2.42 9 9 0 0 0-.51-1.77c-.6-1.52-.32-4.6 3.17-5.72.95-.3 2-.37 3.7-1.49a3.1 3.1 0 0 0 .85-4.3 21 21 0 0 0-5.52-5.27"/><path style="stroke:var(--lg-line)" stroke-linecap="round" stroke-miterlimit="10" d="M10.82 15.9s-.12.73-1.25 2.68c-.5.84-.7 1.84-.52 2.8.18.92.64 2.07 1.72 3.32.89 1.02 1.66 2.15.82 5.18-.38 1.34-.26 3.35 1.15 5.45a5.4 5.4 0 0 0 5.29 2.27 6.5 6.5 0 0 0 4.7-3.22c.56-.89.1-2.14-2.08-3.63-1.03-.7-2.58-2.05-2.48-4.32M36.19 15.9s.1.73 1.25 2.68c.5.84.7 1.84.51 2.8a7 7 0 0 1-1.72 3.32c-.88 1.02-1.66 2.15-.81 5.18.37 1.34.25 3.35-1.16 5.45a5.4 5.4 0 0 1-5.29 2.27 6.5 6.5 0 0 1-4.7-3.22c-.55-.89-.1-2.14 2.09-3.63 1.03-.7 2.67-2.5 2.57-4.77"/><path style="stroke:var(--lg-line)" stroke-linecap="round" stroke-miterlimit="10" d="M16.14 37.66s.9 3.6 6.5 6.41q.47.22.94 0c1.43-.73 5.73-3.17 6.27-6.41M10.82 15.92s2.57 5.33 7.8 5.33m9.76-.03s6.35.58 7.76-5.23m-25.5.41s-7.34-.1-9.55 2.92m10.75 7.47S3.79 28.58 1.07 37.17m15.05.38s-7.43 3.82-2.4 11.75m22.66-32.9s7.34-.1 9.55 2.92m-10.75 7.47s8.05 1.79 10.78 10.38m-15.06.38s6.6 3.98 2.32 11.4"/></svg></template><template id="lg-bluemint"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 47 57"><path fill="#377FB5" d="m2.08 1 42.83.01c.6 0 1.07.48 1.07 1.08v36.46c0 .65-.3 1.26-.8 1.65L24 55.67c-.57.44-1.36.44-1.93 0L1.88 40.3c-.52-.4-.82-1-.82-1.65L1 2.08C1 1.48 1.48 1 2.08 1"/><path fill="#EEF2F2" d="M15.66 7.28c-.94.96-2.24 1.48-3.22 2.38-1.1 1-2.18 1.99-2.58 3-.45 1.13-.14 2.5.83 3.16.14.1.15.29.06.44-1.27 2.42-2.94 4.77-.34 8 .58.7 1.13 1.35 1.4 2.23.32.97.05 2.31-.25 3.3-.5 1.64-.04 3.28.74 4.82.77 1.55 2.24 2.88 3.84 2.88.48 2.46 2.73 4.06 4.76 5.53.3.22.76.53 1.19.82.63.42 1.45.42 2.08 0l1.03-.69c2.03-1.38 4.22-3.02 4.62-5.44 3.6-.28 5.57-2.94 5.71-5.94.1-1.94-.9-3.61-.23-5.44.42-1.12 1.53-2.34 2.08-3.4.71-1.38.8-3.17-.02-4.48-.5-.81-1.17-2.55-1.17-2.55s.47-1.1.46-1.76c-.02-1.21-.78-2.05-1.54-2.99a17 17 0 0 0-2.6-2.56l-1.84-1.35s-1.6.94-2.26 1.42c-1.1.8-2.25 1.4-3.34 2.2-.59.42-1.32 1.12-2.04 1.13-.68 0-1.19-.65-1.76-1.03a470 470 0 0 0-5.61-3.68"/><path fill="#F4F4F4" d="M15.66 7.28c-.94.96-2.24 1.48-3.22 2.38-1.1 1-2.18 1.99-2.58 3-.45 1.13-.14 2.5.83 3.16.14.1.15.29.06.44-1.27 2.42-2.94 4.77-.34 8 .58.7 1.13 1.35 1.4 2.23.32.97.05 2.31-.25 3.3-.5 1.64-.04 3.28.74 4.82.77 1.55 2.24 2.88 3.84 2.88.48 2.46 2.73 4.06 4.76 5.53.3.22.76.53 1.19.82.63.42 1.45.42 2.08 0l1.03-.69c2.03-1.38 4.22-3.02 4.62-5.44 3.6-.28 5.57-2.94 5.71-5.94.1-1.94-.9-3.61-.23-5.44.42-1.12 1.53-2.34 2.08-3.4.71-1.38.8-3.17-.02-4.48-.5-.81-1.17-2.55-1.17-2.55s.47-1.1.46-1.76c-.02-1.21-.78-2.05-1.54-2.99a17 17 0 0 0-2.6-2.56l-1.84-1.35s-1.6.94-2.26 1.42c-1.1.8-2.25 1.4-3.34 2.2-.59.42-1.32 1.12-2.04 1.13-.68 0-1.19-.65-1.76-1.03a470 470 0 0 0-5.61-3.68"/><path fill="#22C98E" d="M28.44 21.21c.17-1.07 1.01-1.93 1.96-2.45.95-.51 2.02-.77 3.04-1.12a5.6 5.6 0 0 0 2.71-1.7 6.6 6.6 0 0 1-3.9 4.7 9 9 0 0 1-3.8.57m-17.57-5.26q.42.82.97 1.56a10 10 0 0 0 2.94 2.68 7.5 7.5 0 0 0 3.82 1.04A5 5 0 0 0 17.36 19a6 6 0 0 0-1.84-1.05z"/><path stroke="#000" stroke-miterlimit="10" d="m2.09 1 42.83.01c.6 0 1.07.48 1.07 1.08v36.46c0 .65-.3 1.26-.8 1.65L24.01 55.67c-.57.44-1.36.44-1.92 0L1.89 40.3c-.52-.4-.82-1-.82-1.65L1 2.08C1.01 1.48 1.5 1 2.1 1Z"/><path stroke="#22C98E" stroke-linecap="round" stroke-miterlimit="10" d="m18.33 1.06 4.1 3.14c.39.3.92.3 1.3 0L27.86 1"/><path stroke="#22C98E" stroke-linecap="round" stroke-miterlimit="10" d="M6.41 1.05 22.43 11.8c.4.26.92.26 1.31 0L39.81 1.02"/><path stroke="#000" stroke-linecap="round" stroke-miterlimit="10" d="M15.77 7.37s-3.7 2.1-5.6 4.66a2.7 2.7 0 0 0 .97 4.04c1.11.53 2.89 1.08 5.4 2.25 1.4.66 2.75 2.81 2.02 5.86-.12.47-.22.94-.37 1.91-.2 1.27.85 2.4 2.13 2.25q.43-.04.97-.17c1.02-.24 2.3-.47 4.82-.07q.24.04.53.06a2.12 2.12 0 0 0 2.27-2.42 9 9 0 0 0-.51-1.77c-.6-1.52-.32-4.6 3.17-5.72.95-.3 2-.37 3.7-1.49a3.1 3.1 0 0 0 .85-4.3 21 21 0 0 0-5.52-5.27"/><path stroke="#000" stroke-linecap="round" stroke-miterlimit="10" d="M10.82 15.9s-.12.73-1.25 2.68c-.5.84-.7 1.84-.52 2.8.18.92.64 2.07 1.72 3.32.89 1.02 1.66 2.15.82 5.18-.38 1.34-.26 3.35 1.15 5.45a5.4 5.4 0 0 0 5.29 2.27 6.5 6.5 0 0 0 4.7-3.22c.56-.89.1-2.14-2.08-3.63-1.03-.7-2.58-2.05-2.48-4.32M36.19 15.9s.1.73 1.25 2.68c.5.84.7 1.84.51 2.8a7 7 0 0 1-1.72 3.32c-.88 1.02-1.66 2.15-.81 5.18.37 1.34.25 3.35-1.16 5.45a5.4 5.4 0 0 1-5.29 2.27 6.5 6.5 0 0 1-4.7-3.22c-.55-.89-.1-2.14 2.09-3.63 1.03-.7 2.67-2.5 2.57-4.77"/><path stroke="#000" stroke-linecap="round" stroke-miterlimit="10" d="M16.14 37.66s.9 3.6 6.5 6.41q.47.22.94 0c1.43-.73 5.73-3.17 6.27-6.41M10.82 15.92s2.57 5.33 7.8 5.33m9.76-.03s6.35.58 7.76-5.23m-25.5.41s-7.34-.1-9.55 2.92m10.75 7.47S3.79 28.58 1.07 37.17m15.05.38s-7.43 3.82-2.4 11.75m22.66-32.9s7.34-.1 9.55 2.92m-10.75 7.47s8.05 1.79 10.78 10.38m-15.06.38s6.6 3.98 2.32 11.4"/></svg></template><template id="lg-mint"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 47 57"><path fill="#0E1E2C" d="m2.08 1 42.83.01c.6 0 1.07.48 1.07 1.08v36.46c0 .65-.3 1.26-.8 1.65L24 55.67c-.57.44-1.36.44-1.930 0L1.88 40.3c-.52-.4-.82-1-.82-1.65L1 2.08C1 1.48 1.48 1 2.08 1"/><path fill="#F4F6F8" d="M15.66 7.28c-.94.96-2.24 1.48-3.22 2.38-1.1 1-2.18 1.99-2.58 3-.45 1.13-.14 2.5.83 3.16.14.1.15.29.06.44-1.27 2.42-2.94 4.770-.34 8 .58.7 1.13 1.35 1.4 2.23.32.97.05 2.31-.25 3.3-.5 1.64-.04 3.28.74 4.82.77 1.55 2.24 2.88 3.84 2.88.48 2.46 2.73 4.06 4.76 5.53.3.22.76.53 1.19.82.63.42 1.45.42 2.08 0l1.03-.69c2.03-1.38 4.22-3.02 4.62-5.44 3.6-.28 5.57-2.94 5.71-5.94.1-1.94-.9-3.61-.23-5.44.42-1.12 1.53-2.34 2.08-3.4.71-1.38.8-3.170-.02-4.48-.5-.81-1.17-2.55-1.17-2.55s.47-1.1.46-1.76c-.02-1.21-.78-2.05-1.54-2.99a17 17 0 0 0-2.6-2.56l-1.84-1.35s-1.6.94-2.26 1.42c-1.1.8-2.25 1.4-3.34 2.2-.59.42-1.32 1.12-2.04 1.13-.68 0-1.19-.65-1.76-1.03a470 470 0 0 0-5.61-3.68"/><path fill="#22C98E" d="M28.44 21.21c.17-1.07 1.01-1.930 1.96-2.45.95-.51 2.02-.77 3.04-1.12a5.6 5.6 0 0 0 2.71-1.7 6.6 6.6 0 0 1-3.9 4.7 9 9 0 0 1-3.8.57m-17.57-5.26q.42.82.97 1.56a10 10 0 0 0 2.94 2.68 7.5 7.5 0 0 0 3.82 1.04A5 5 0 0 0 17.36 19a6 6 0 0 0-1.84-1.05z"/><path stroke="#22C98E" stroke-linecap="round" stroke-miterlimit="10" d="m18.33 1.06 4.1 3.14c.39.3.92.3 1.3 0L27.86 1"/><path stroke="#22C98E" stroke-linecap="round" stroke-miterlimit="10" d="M6.41 1.05 22.43 11.8c.4.26.92.26 1.31 0L39.81 1.02"/><path stroke="#0E1E2C" stroke-linecap="round" stroke-miterlimit="10" d="M15.77 7.37s-3.7 2.1-5.6 4.66a2.7 2.7 0 0 0 .97 4.04c1.11.53 2.89 1.08 5.4 2.25 1.4.66 2.75 2.81 2.02 5.86-.12.47-.22.94-.37 1.910-.2 1.27.85 2.4 2.13 2.25q.43-.04.97-.17c1.02-.24 2.3-.47 4.82-.07q.24.04.53.06a2.12 2.12 0 0 0 2.27-2.42 9 9 0 0 0-.51-1.77c-.6-1.52-.32-4.6 3.17-5.72.95-.3 2-.37 3.7-1.49a3.1 3.1 0 0 0 .85-4.3 21 21 0 0 0-5.52-5.27"/><path stroke="#0E1E2C" stroke-linecap="round" stroke-miterlimit="10" d="M10.82 15.9s-.12.73-1.25 2.68c-.5.84-.7 1.84-.52 2.8.18.92.64 2.07 1.72 3.32.89 1.02 1.66 2.15.82 5.18-.38 1.34-.26 3.35 1.15 5.45a5.4 5.4 0 0 0 5.29 2.27 6.5 6.5 0 0 0 4.7-3.22c.56-.89.1-2.14-2.08-3.63-1.03-.7-2.58-2.05-2.48-4.32M36.19 15.9s.1.73 1.25 2.68c.5.84.7 1.84.51 2.8a7 7 0 0 1-1.72 3.32c-.88 1.02-1.66 2.15-.81 5.18.37 1.34.25 3.35-1.16 5.45a5.4 5.4 0 0 1-5.29 2.27 6.5 6.5 0 0 1-4.7-3.22c-.55-.89-.1-2.14 2.09-3.63 1.03-.7 2.67-2.5 2.57-4.77"/><path stroke="#3E5266" stroke-linecap="round" stroke-miterlimit="10" d="M16.14 37.66s.9 3.6 6.5 6.41q.47.22.94 0c1.43-.73 5.73-3.17 6.27-6.41M10.82 15.92s2.57 5.33 7.8 5.33m9.76-.03s6.35.58 7.76-5.23m-25.5.41s-7.34-.1-9.55 2.92m10.75 7.47S3.79 28.58 1.07 37.17m15.05.38s-7.43 3.82-2.4 11.75m22.66-32.9s7.34-.1 9.55 2.92m-10.75 7.47s8.05 1.79 10.78 10.38m-15.06.38s6.6 3.98 2.32 11.4"/></svg></template><template id="lg-navy"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 47 57"><path fill="#0E1E2C" d="m2.08 1 42.83.01c.6 0 1.07.48 1.07 1.08v36.46c0 .65-.3 1.26-.8 1.65L24 55.67c-.57.44-1.36.44-1.930 0L1.88 40.3c-.52-.4-.82-1-.82-1.65L1 2.08C1 1.48 1.48 1 2.08 1"/><path fill="#F4F6F8" d="M15.66 7.28c-.94.96-2.24 1.48-3.22 2.38-1.1 1-2.18 1.99-2.58 3-.45 1.13-.14 2.5.83 3.16.14.1.15.29.06.44-1.27 2.42-2.94 4.770-.34 8 .58.7 1.13 1.35 1.4 2.23.32.97.05 2.31-.25 3.3-.5 1.64-.04 3.28.74 4.82.77 1.55 2.24 2.88 3.84 2.88.48 2.46 2.73 4.06 4.76 5.53.3.22.76.53 1.19.82.63.42 1.45.42 2.08 0l1.03-.69c2.03-1.38 4.22-3.02 4.62-5.44 3.6-.28 5.57-2.94 5.71-5.94.1-1.94-.9-3.61-.23-5.44.42-1.12 1.53-2.34 2.08-3.4.71-1.38.8-3.170-.02-4.48-.5-.81-1.17-2.55-1.17-2.55s.47-1.1.46-1.76c-.02-1.21-.78-2.05-1.54-2.99a17 17 0 0 0-2.6-2.56l-1.84-1.35s-1.6.94-2.26 1.42c-1.1.8-2.25 1.4-3.34 2.2-.59.42-1.32 1.12-2.04 1.13-.68 0-1.19-.65-1.76-1.03a470 470 0 0 0-5.61-3.68"/><path fill="#0E1E2C" d="M28.44 21.21c.17-1.07 1.01-1.930 1.96-2.45.95-.51 2.02-.77 3.04-1.12a5.6 5.6 0 0 0 2.71-1.7 6.6 6.6 0 0 1-3.9 4.7 9 9 0 0 1-3.8.57m-17.57-5.26q.42.82.97 1.56a10 10 0 0 0 2.94 2.68 7.5 7.5 0 0 0 3.82 1.04A5 5 0 0 0 17.36 19a6 6 0 0 0-1.84-1.05z"/><path stroke="#3E5266" stroke-linecap="round" stroke-miterlimit="10" d="m18.33 1.06 4.1 3.14c.39.3.92.3 1.3 0L27.86 1"/><path stroke="#3E5266" stroke-linecap="round" stroke-miterlimit="10" d="M6.41 1.05 22.43 11.8c.4.26.92.26 1.31 0L39.81 1.02"/><path stroke="#0E1E2C" stroke-linecap="round" stroke-miterlimit="10" d="M15.77 7.37s-3.7 2.1-5.6 4.66a2.7 2.7 0 0 0 .97 4.04c1.11.53 2.89 1.08 5.4 2.25 1.4.66 2.75 2.81 2.02 5.86-.12.47-.22.94-.37 1.910-.2 1.27.85 2.4 2.13 2.25q.43-.04.97-.17c1.02-.24 2.3-.47 4.82-.07q.24.04.53.06a2.12 2.12 0 0 0 2.27-2.42 9 9 0 0 0-.51-1.77c-.6-1.52-.32-4.6 3.17-5.72.95-.3 2-.37 3.7-1.49a3.1 3.1 0 0 0 .85-4.3 21 21 0 0 0-5.52-5.27"/><path stroke="#0E1E2C" stroke-linecap="round" stroke-miterlimit="10" d="M10.82 15.9s-.12.73-1.25 2.68c-.5.84-.7 1.84-.52 2.8.18.92.64 2.07 1.72 3.32.89 1.02 1.66 2.15.82 5.18-.38 1.34-.26 3.35 1.15 5.45a5.4 5.4 0 0 0 5.29 2.27 6.5 6.5 0 0 0 4.7-3.22c.56-.89.1-2.14-2.08-3.63-1.03-.7-2.58-2.05-2.48-4.32M36.19 15.9s.1.73 1.25 2.68c.5.84.7 1.84.51 2.8a7 7 0 0 1-1.72 3.32c-.88 1.02-1.66 2.15-.81 5.18.37 1.34.25 3.35-1.16 5.45a5.4 5.4 0 0 1-5.29 2.27 6.5 6.5 0 0 1-4.7-3.22c-.55-.89-.1-2.14 2.09-3.63 1.03-.7 2.67-2.5 2.57-4.77"/><path stroke="#3E5266" stroke-linecap="round" stroke-miterlimit="10" d="M16.14 37.66s.9 3.6 6.5 6.41q.47.22.94 0c1.43-.73 5.73-3.17 6.27-6.41M10.82 15.92s2.57 5.33 7.8 5.33m9.76-.03s6.35.58 7.76-5.23m-25.5.41s-7.34-.1-9.55 2.92m10.75 7.47S3.79 28.58 1.07 37.17m15.05.38s-7.43 3.82-2.4 11.75m22.66-32.9s7.34-.1 9.55 2.92m-10.75 7.47s8.05 1.79 10.78 10.38m-15.06.38s6.6 3.98 2.32 11.4"/></svg></template><template id="lg-blue"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 47 57"><path fill="#377FB5" d="m2.08 1 42.83.01c.6 0 1.07.48 1.07 1.08v36.46c0 .65-.3 1.26-.8 1.65L24 55.67c-.57.44-1.36.44-1.93 0L1.88 40.3c-.52-.4-.82-1-.82-1.65L1 2.08C1 1.48 1.48 1 2.08 1"/><path fill="#EEF2F2" d="M15.66 7.28c-.94.96-2.24 1.48-3.22 2.38-1.1 1-2.18 1.99-2.58 3-.45 1.13-.14 2.5.83 3.16.14.1.15.29.06.44-1.27 2.42-2.94 4.77-.34 8 .58.7 1.13 1.35 1.4 2.23.32.97.05 2.31-.25 3.3-.5 1.64-.04 3.28.74 4.82.77 1.55 2.24 2.88 3.84 2.88.48 2.46 2.73 4.06 4.76 5.53.3.22.76.53 1.19.82.63.42 1.45.42 2.08 0l1.03-.69c2.03-1.38 4.22-3.02 4.62-5.44 3.6-.28 5.57-2.94 5.71-5.94.1-1.94-.9-3.61-.23-5.44.42-1.12 1.53-2.34 2.08-3.4.71-1.38.8-3.17-.02-4.48-.5-.81-1.17-2.55-1.17-2.55s.47-1.1.46-1.76c-.02-1.21-.78-2.05-1.54-2.99a17 17 0 0 0-2.6-2.56l-1.84-1.35s-1.6.94-2.26 1.42c-1.1.8-2.25 1.4-3.34 2.2-.59.42-1.32 1.12-2.04 1.13-.68 0-1.19-.65-1.76-1.03a470 470 0 0 0-5.61-3.68"/><path fill="#F4F4F4" d="M15.66 7.28c-.94.96-2.24 1.48-3.22 2.38-1.1 1-2.18 1.99-2.58 3-.45 1.13-.14 2.5.83 3.16.14.1.15.29.06.44-1.27 2.42-2.94 4.77-.34 8 .58.7 1.13 1.35 1.4 2.23.32.97.05 2.31-.25 3.3-.5 1.64-.04 3.28.74 4.82.77 1.55 2.24 2.88 3.84 2.88.48 2.46 2.73 4.06 4.76 5.53.3.22.76.53 1.19.82.63.42 1.45.42 2.08 0l1.03-.69c2.03-1.38 4.22-3.02 4.62-5.44 3.6-.28 5.57-2.94 5.71-5.94.1-1.94-.9-3.61-.23-5.44.42-1.12 1.53-2.34 2.08-3.4.71-1.38.8-3.17-.02-4.48-.5-.81-1.17-2.55-1.17-2.55s.47-1.1.46-1.76c-.02-1.21-.78-2.05-1.54-2.99a17 17 0 0 0-2.6-2.56l-1.84-1.35s-1.6.94-2.26 1.42c-1.1.8-2.25 1.4-3.34 2.2-.59.42-1.32 1.12-2.04 1.13-.68 0-1.19-.65-1.76-1.03a470 470 0 0 0-5.61-3.68"/><path fill="#3780B2" d="M28.44 21.21c.17-1.07 1.01-1.93 1.96-2.45.95-.51 2.02-.77 3.04-1.12a5.6 5.6 0 0 0 2.71-1.7 6.6 6.6 0 0 1-3.9 4.7 9 9 0 0 1-3.8.57m-17.57-5.26q.42.82.97 1.56a10 10 0 0 0 2.94 2.68 7.5 7.5 0 0 0 3.82 1.04A5 5 0 0 0 17.36 19a6 6 0 0 0-1.84-1.05z"/><path stroke="#000" stroke-miterlimit="10" d="m2.09 1 42.83.01c.6 0 1.07.48 1.07 1.08v36.46c0 .65-.3 1.26-.8 1.65L24.01 55.67c-.57.44-1.36.44-1.92 0L1.89 40.3c-.52-.4-.82-1-.82-1.65L1 2.08C1.01 1.48 1.5 1 2.1 1Z"/><path stroke="#000" stroke-linecap="round" stroke-miterlimit="10" d="m18.33 1.06 4.1 3.14c.39.3.92.3 1.3 0L27.86 1"/><path stroke="#000" stroke-linecap="round" stroke-miterlimit="10" d="M6.41 1.05 22.43 11.8c.4.26.92.26 1.31 0L39.81 1.02"/><path stroke="#000" stroke-linecap="round" stroke-miterlimit="10" d="M15.77 7.37s-3.7 2.1-5.6 4.66a2.7 2.7 0 0 0 .97 4.04c1.11.53 2.89 1.08 5.4 2.25 1.4.66 2.75 2.81 2.02 5.86-.12.47-.22.94-.37 1.91-.2 1.27.85 2.4 2.13 2.25q.43-.04.97-.17c1.02-.24 2.3-.47 4.82-.07q.24.04.53.06a2.12 2.12 0 0 0 2.27-2.42 9 9 0 0 0-.51-1.77c-.6-1.52-.32-4.6 3.17-5.72.95-.3 2-.37 3.7-1.49a3.1 3.1 0 0 0 .85-4.3 21 21 0 0 0-5.52-5.27"/><path stroke="#000" stroke-linecap="round" stroke-miterlimit="10" d="M10.82 15.9s-.12.73-1.25 2.68c-.5.84-.7 1.84-.52 2.8.18.92.64 2.07 1.72 3.32.89 1.02 1.66 2.15.82 5.18-.38 1.34-.26 3.35 1.15 5.45a5.4 5.4 0 0 0 5.29 2.27 6.5 6.5 0 0 0 4.7-3.22c.56-.89.1-2.14-2.08-3.63-1.03-.7-2.58-2.05-2.48-4.32M36.19 15.9s.1.73 1.25 2.68c.5.84.7 1.84.51 2.8a7 7 0 0 1-1.72 3.32c-.88 1.02-1.66 2.15-.81 5.18.37 1.34.25 3.35-1.16 5.45a5.4 5.4 0 0 1-5.29 2.27 6.5 6.5 0 0 1-4.7-3.22c-.55-.89-.1-2.14 2.09-3.63 1.03-.7 2.67-2.5 2.57-4.77"/><path stroke="#000" stroke-linecap="round" stroke-miterlimit="10" d="M16.14 37.66s.9 3.6 6.5 6.41q.47.22.94 0c1.43-.73 5.73-3.17 6.27-6.41M10.82 15.92s2.57 5.33 7.8 5.33m9.76-.03s6.35.58 7.76-5.23m-25.5.41s-7.34-.1-9.55 2.92m10.75 7.47S3.79 28.58 1.07 37.17m15.05.38s-7.43 3.82-2.4 11.75m22.66-32.9s7.34-.1 9.55 2.92m-10.75 7.47s8.05 1.79 10.78 10.38m-15.06.38s6.6 3.98 2.32 11.4"/></svg></template><template id="lg-bluewhite"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 47 57"><path fill="#377FB5" d="m2.08 1 42.83.01c.6 0 1.07.48 1.07 1.08v36.46c0 .65-.3 1.26-.8 1.65L24 55.67c-.57.44-1.36.44-1.93 0L1.88 40.3c-.52-.4-.82-1-.82-1.65L1 2.08C1 1.48 1.48 1 2.08 1"/><path fill="#EEF2F2" d="M15.66 7.28c-.94.96-2.24 1.48-3.22 2.38-1.1 1-2.18 1.99-2.58 3-.45 1.13-.14 2.5.83 3.16.14.1.15.29.06.44-1.27 2.42-2.94 4.77-.34 8 .58.7 1.13 1.35 1.4 2.23.32.97.05 2.31-.25 3.3-.5 1.64-.04 3.28.74 4.82.77 1.55 2.24 2.88 3.84 2.88.48 2.46 2.73 4.06 4.76 5.53.3.22.76.53 1.19.82.63.42 1.45.42 2.08 0l1.03-.69c2.03-1.38 4.22-3.02 4.62-5.44 3.6-.28 5.57-2.94 5.71-5.94.1-1.94-.9-3.61-.23-5.44.42-1.12 1.53-2.34 2.08-3.4.71-1.38.8-3.17-.02-4.48-.5-.81-1.17-2.55-1.17-2.55s.47-1.1.46-1.76c-.02-1.21-.78-2.05-1.54-2.99a17 17 0 0 0-2.6-2.56l-1.84-1.35s-1.6.94-2.26 1.42c-1.1.8-2.25 1.4-3.34 2.2-.59.42-1.32 1.12-2.04 1.13-.68 0-1.19-.65-1.76-1.03a470 470 0 0 0-5.61-3.68"/><path fill="#F4F4F4" d="M15.66 7.28c-.94.96-2.24 1.48-3.22 2.38-1.1 1-2.18 1.99-2.58 3-.45 1.13-.14 2.5.83 3.16.14.1.15.29.06.44-1.27 2.42-2.94 4.77-.34 8 .58.7 1.13 1.35 1.4 2.23.32.97.05 2.31-.25 3.3-.5 1.64-.04 3.28.74 4.82.77 1.55 2.24 2.88 3.84 2.88.48 2.46 2.73 4.06 4.76 5.53.3.22.76.53 1.19.82.63.42 1.45.42 2.08 0l1.03-.69c2.03-1.38 4.22-3.02 4.62-5.44 3.6-.28 5.57-2.94 5.71-5.94.1-1.94-.9-3.61-.23-5.44.42-1.12 1.53-2.34 2.08-3.4.71-1.38.8-3.17-.02-4.48-.5-.81-1.17-2.55-1.17-2.55s.47-1.1.46-1.76c-.02-1.21-.78-2.05-1.54-2.99a17 17 0 0 0-2.6-2.56l-1.84-1.35s-1.6.94-2.26 1.42c-1.1.8-2.25 1.4-3.34 2.2-.59.42-1.32 1.12-2.04 1.13-.68 0-1.19-.65-1.76-1.03a470 470 0 0 0-5.61-3.68"/><path fill="#3780B2" d="M28.44 21.21c.17-1.07 1.01-1.93 1.96-2.45.95-.51 2.02-.77 3.04-1.12a5.6 5.6 0 0 0 2.71-1.7 6.6 6.6 0 0 1-3.9 4.7 9 9 0 0 1-3.8.57m-17.57-5.26q.42.82.97 1.56a10 10 0 0 0 2.94 2.68 7.5 7.5 0 0 0 3.82 1.04A5 5 0 0 0 17.36 19a6 6 0 0 0-1.84-1.05z"/><path stroke="#000" stroke-miterlimit="10" d="m2.09 1 42.83.01c.6 0 1.07.48 1.07 1.08v36.46c0 .65-.3 1.26-.8 1.65L24.01 55.67c-.57.44-1.36.44-1.92 0L1.89 40.3c-.52-.4-.82-1-.82-1.65L1 2.08C1.01 1.48 1.5 1 2.1 1Z"/><path stroke="#FFFFFF" stroke-linecap="round" stroke-miterlimit="10" d="m18.33 1.06 4.1 3.14c.39.3.92.3 1.3 0L27.86 1"/><path stroke="#FFFFFF" stroke-linecap="round" stroke-miterlimit="10" d="M6.41 1.05 22.43 11.8c.4.26.92.26 1.31 0L39.81 1.02"/><path stroke="#000" stroke-linecap="round" stroke-miterlimit="10" d="M15.77 7.37s-3.7 2.1-5.6 4.66a2.7 2.7 0 0 0 .97 4.04c1.11.53 2.89 1.08 5.4 2.25 1.4.66 2.75 2.81 2.02 5.86-.12.47-.22.94-.37 1.91-.2 1.27.85 2.4 2.13 2.25q.43-.04.97-.17c1.02-.24 2.3-.47 4.82-.07q.24.04.53.06a2.12 2.12 0 0 0 2.27-2.42 9 9 0 0 0-.51-1.77c-.6-1.52-.32-4.6 3.17-5.72.95-.3 2-.37 3.7-1.49a3.1 3.1 0 0 0 .85-4.3 21 21 0 0 0-5.52-5.27"/><path stroke="#000" stroke-linecap="round" stroke-miterlimit="10" d="M10.82 15.9s-.12.73-1.25 2.68c-.5.84-.7 1.84-.52 2.8.18.92.64 2.07 1.72 3.32.89 1.02 1.66 2.15.82 5.18-.38 1.34-.26 3.35 1.15 5.45a5.4 5.4 0 0 0 5.29 2.27 6.5 6.5 0 0 0 4.7-3.22c.56-.89.1-2.14-2.08-3.63-1.03-.7-2.58-2.05-2.48-4.32M36.19 15.9s.1.73 1.25 2.68c.5.84.7 1.84.51 2.8a7 7 0 0 1-1.72 3.32c-.88 1.02-1.66 2.15-.81 5.18.37 1.34.25 3.35-1.16 5.45a5.4 5.4 0 0 1-5.29 2.27 6.5 6.5 0 0 1-4.7-3.22c-.55-.89-.1-2.14 2.09-3.63 1.03-.7 2.67-2.5 2.57-4.77"/><path stroke="#FFFFFF" stroke-linecap="round" stroke-miterlimit="10" d="M16.14 37.66s.9 3.6 6.5 6.41q.47.22.94 0c1.43-.73 5.73-3.17 6.27-6.41M10.82 15.92s2.57 5.33 7.8 5.33m9.76-.03s6.35.58 7.76-5.23m-25.5.41s-7.34-.1-9.55 2.92m10.75 7.47S3.79 28.58 1.07 37.17m15.05.38s-7.43 3.82-2.4 11.75m22.66-32.9s7.34-.1 9.55 2.92m-10.75 7.47s8.05 1.79 10.78 10.38m-15.06.38s6.6 3.98 2.32 11.4"/></svg></template>
 
+
+<div id="kwit" class="pop" popover>
+  <div class="kw-wrap">
+    <div class="kw-slot" aria-hidden="true"></div>
+    <div class="kw-feed">
+      <div class="kw-paper" role="dialog" aria-labelledby="kwT" aria-describedby="kwWarnD">
+        <button type="button" class="kw-x" popovertarget="kwit" popovertargetaction="hide" aria-label="Zamknij"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+        <div class="kw-hd"><span class="kw-logo" id="kwLogo"></span><div><b id="kwT">Wycena wymiany</b><small>White Money · kantor kryptowalut online</small></div></div>
+        <p class="kw-warn" id="kwWarnD">To nie jest potwierdzenie transakcji</p>
+        <div class="kw-meta"><span>Wycena z dnia</span><span id="kwDate"></span></div>
+        <div class="kw-cut"></div>
+        <div class="kw-op" id="kwOp">KUPNO</div>
+        <dl class="kw-rows">
+          <div><dt>Oddajesz</dt><dd id="kwGive"></dd></div>
+          <div class="kw-big"><dt>Otrzymujesz (szacunkowo)</dt><dd id="kwGet"></dd></div>
+          <div><dt>Kurs</dt><dd id="kwRate"></dd></div>
+          <div><dt>Sieć</dt><dd id="kwNet"></dd></div>
+          <div><dt>Metoda płatności</dt><dd id="kwMethod"></dd></div>
+        </dl>
+        <div class="kw-cut"></div>
+        <p class="kw-note">Kwota orientacyjna. Ostateczny kurs ustalamy w chwili zaksięgowania środków.</p>
+        <div class="kw-foot"><span class="kw-valid">Kurs zmienia się razem z rynkiem — sprawdź aktualną kwotę przed wymianą.</span><span class="kw-stamp" aria-hidden="true"><span>WHITE MONEY</span><svg viewBox="0 0 47 57" fill="none"><path pathLength="1"  stroke-miterlimit="10" d="m2.09 1 42.83.01c.6 0 1.07.48 1.07 1.08v36.46c0 .65-.3 1.26-.8 1.65L24.01 55.67c-.57.44-1.36.44-1.92 0L1.89 40.3c-.52-.4-.82-1-.82-1.65L1 2.08C1.01 1.48 1.5 1 2.1 1Z"/><path pathLength="1"  stroke-linecap="round" stroke-miterlimit="10" d="m18.33 1.06 4.1 3.14c.39.3.92.3 1.3 0L27.86 1"/><path pathLength="1"  stroke-linecap="round" stroke-miterlimit="10" d="M6.41 1.05 22.43 11.8c.4.26.92.26 1.31 0L39.81 1.02"/><path pathLength="1"  stroke-linecap="round" stroke-miterlimit="10" d="M15.77 7.37s-3.7 2.1-5.6 4.66a2.7 2.7 0 0 0 .97 4.04c1.11.53 2.89 1.08 5.4 2.25 1.4.66 2.75 2.81 2.02 5.86-.12.47-.22.94-.37 1.91-.2 1.27.85 2.4 2.13 2.25q.43-.04.97-.17c1.02-.24 2.3-.47 4.82-.07q.24.04.53.06a2.12 2.12 0 0 0 2.27-2.42 9 9 0 0 0-.51-1.77c-.6-1.52-.32-4.6 3.17-5.72.95-.3 2-.37 3.7-1.49a3.1 3.1 0 0 0 .85-4.3 21 21 0 0 0-5.52-5.27"/><path pathLength="1"  stroke-linecap="round" stroke-miterlimit="10" d="M10.82 15.9s-.12.73-1.25 2.68c-.5.84-.7 1.84-.52 2.8.18.92.64 2.07 1.72 3.32.89 1.02 1.66 2.15.82 5.18-.38 1.34-.26 3.35 1.15 5.45a5.4 5.4 0 0 0 5.29 2.27 6.5 6.5 0 0 0 4.7-3.22c.56-.89.1-2.14-2.08-3.63-1.03-.7-2.58-2.05-2.48-4.32M36.19 15.9s.1.73 1.25 2.68c.5.84.7 1.84.51 2.8a7 7 0 0 1-1.72 3.32c-.88 1.02-1.66 2.15-.81 5.18.37 1.34.25 3.35-1.16 5.45a5.4 5.4 0 0 1-5.29 2.27 6.5 6.5 0 0 1-4.7-3.22c-.55-.89-.1-2.14 2.09-3.63 1.03-.7 2.67-2.5 2.57-4.77"/><path pathLength="1"  stroke-linecap="round" stroke-miterlimit="10" d="M16.14 37.66s.9 3.6 6.5 6.41q.47.22.94 0c1.43-.73 5.73-3.17 6.27-6.41M10.82 15.92s2.57 5.33 7.8 5.33m9.76-.03s6.35.58 7.76-5.23m-25.5.41s-7.34-.1-9.55 2.92m10.75 7.47S3.79 28.58 1.07 37.17m15.05.38s-7.43 3.82-2.4 11.75m22.66-32.9s7.34-.1 9.55 2.92m-10.75 7.47s8.05 1.79 10.78 10.38m-15.06.38s6.6 3.98 2.32 11.4"/></svg><span>WYCENA</span></span></div>
+        <div class="kw-acts"><button type="button" class="btn" id="kwGo">Przejdź do wymiany <span class="ar">→</span></button><button type="button" class="btn kw-sec" id="kwSave">Wyślij na Telegram</button></div>
+      </div>
+    </div>
+  </div>
+</div>
 <div id="picker" class="pop" popover>
   <div class="pk" role="dialog" aria-labelledby="pkT">
     <div class="pk-hd"><b id="pkT">Wybierz walutę</b><button type="button" class="pk-x" popovertarget="picker" popovertargetaction="hide" aria-label="Zamknij"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
@@ -1483,12 +1610,22 @@ section.blk .sub { margin-top: 8px; }
   function syncSteps() {
     stTick = false;
     let act = 0;
-    scards.forEach((c, i) => { const top = parseFloat(getComputedStyle(c).top) || 0; if (c.getBoundingClientRect().top <= top + 4) act = i; });
+    scards.forEach((c, i) => { if (c.getBoundingClientRect().top <= innerHeight * .5) act = i; });
     dots.forEach((d, i) => d.toggleAttribute('aria-current', i === act));
     dots.forEach((d, i) => { if (i === act) d.setAttribute('aria-current', 'step'); });
     scards.forEach((c, i) => { const under = i < act && c.getBoundingClientRect().top <= (parseFloat(getComputedStyle(c).top) || 0) + 4; c.classList.toggle('under', under); c.style.setProperty('--depth', act - i); });
   }
   addEventListener('scroll', () => { if (!stTick) { stTick = true; requestAnimationFrame(syncSteps); } }, { passive: true });
+  /* stepper is clickable: scroll so that card i settles into the stack */
+  const stack = document.querySelector('.stack');
+  function goStep(i) {
+    const gap = parseFloat(getComputedStyle(stack).rowGap) || 0;
+    let natural = stack.getBoundingClientRect().top + scrollY;
+    for (let j = 0; j < i; j++) natural += scards[j].offsetHeight + gap;
+    const stickTop = parseFloat(getComputedStyle(scards[i]).top) || 0;
+    scrollTo({ top: natural - stickTop + 2 - (i ? 0 : 60), behavior: motion ? 'smooth' : 'auto' });
+  }
+  dots.forEach((d, i) => { d.addEventListener('click', () => goStep(i)); d.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goStep(i); } }); });
   syncSteps();
 
 
@@ -1662,6 +1799,75 @@ section.blk .sub { margin-top: 8px; }
   addEventListener('scroll', onProg, { passive: true });
   addEventListener('resize', onProg);
 
+
+
+  /* ===== signatures: toggles ===== */
+  const xs = { kwit: 1, mane: 1, lion: 1 };
+  document.querySelectorAll('.xt').forEach(b => {
+    const k = b.dataset.x;
+    const set = on => { root.classList.toggle('x-' + k, on); b.setAttribute('aria-pressed', String(on)); };
+    set(qp.get('x-' + k) !== '0');
+    b.addEventListener('click', () => set(!root.classList.contains('x-' + k)));
+  });
+
+  /* ===== signature 1: receipt ===== */
+  const kw = document.getElementById('kwit');
+  function openKwit() {
+    const m = state.mode, F = state.fiat, cur = c => asset(c);
+    const giveCode = m === 'buy' ? F : cur(m === 'sell' ? state.coin : state.from).code;
+    const getA = m === 'buy' ? cur(state.coin) : m === 'swap' ? cur(state.to) : null;
+    const getCode = getA ? getA.code : F;
+    const netA = m === 'buy' ? cur(state.coin) : m === 'sell' ? cur(state.coin) : cur(state.to);
+    document.getElementById('kwOp').textContent = { buy: 'KUPNO', sell: 'SPRZEDAŻ', swap: 'WYMIANA' }[m];
+    document.getElementById('kwGive').textContent = giveIn.value + ' ' + giveCode;
+    document.getElementById('kwGet').textContent = getIn.value + ' ' + getCode;
+    document.getElementById('kwRate').textContent = rateLine.textContent;
+    document.getElementById('kwNet').textContent = netA.net || netA.name;
+    document.getElementById('kwMethod').textContent = mName.textContent;
+    const now = new Date();
+    document.getElementById('kwDate').textContent = now.toLocaleDateString('pl-PL') + ' ' + now.toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' });
+    document.getElementById('kwLogo').innerHTML = logoA.innerHTML;
+    kw.showPopover();
+  }
+  document.getElementById('saveQ').addEventListener('click', openKwit);
+  document.getElementById('kwGo').addEventListener('click', () => { kw.hidePopover(); toast('В прототипе: здесь откроется /x/login, затем оформление заявки'); });
+  document.getElementById('kwSave').addEventListener('click', () => toast('В прототипе: квитанция уйдёт вам в Telegram (@globuskantor)'));
+
+  /* ===== signature 3: living lion ===== */
+  function lionEyes() { return [...document.querySelectorAll('header .logo svg, #lionSeal svg')].map(svg => { const p = svg.querySelectorAll('path')[3]; if (p) p.classList.add('lion-eyes'); return { svg, p }; }).filter(x => x.p); }
+  function syncSeal() { const s = document.getElementById('lionSeal'), a = document.querySelector('header .logo'); if (s && a) s.innerHTML = a.innerHTML; }
+  let eyes = [];
+  function refreshLion() { syncSeal(); eyes = lionEyes(); }
+  refreshLion();
+  new MutationObserver(refreshLion).observe(logoA, { childList: true });
+  let lx = innerWidth / 2, ly = innerHeight / 2, lraf = 0;
+  addEventListener('pointermove', e => { lx = e.clientX; ly = e.clientY; if (!lraf) lraf = requestAnimationFrame(look); }, { passive: true });
+  function look() {
+    lraf = 0;
+    if (!root.classList.contains('x-lion') || !motion) return;
+    eyes.forEach(({ svg, p }) => {
+      const r = svg.getBoundingClientRect(); if (!r.width) return;
+      const cx = r.left + r.width / 2, cy = r.top + r.height * .38, dx = lx - cx, dy = ly - cy, d = Math.hypot(dx, dy) || 1, k = Math.min(1, d / 260);
+      p.style.setProperty('--ex', (dx / d * 1.1 * k).toFixed(2) + 'px');
+      p.style.setProperty('--ey', (dy / d * .8 * k).toFixed(2) + 'px');
+    });
+  }
+  let lastBlink = 0;
+  function blink() {
+    if (!root.classList.contains('x-lion') || !motion) return;
+    lastBlink = Date.now();
+    eyes.forEach(({ p }) => { p.style.setProperty('--es', '.12'); setTimeout(() => p.style.setProperty('--es', '1'), 140); });
+  }
+  (function idle() { setTimeout(() => { blink(); idle(); }, 3500 + Math.random() * 3500); })();
+  const sealEl = document.getElementById('lionSeal');
+  const origCalc = calc;
+  let lastOut = '';
+  setInterval(() => {
+    if (getIn.value !== lastOut) {
+      lastOut = getIn.value;
+      if (root.classList.contains('x-lion') && motion) { if (Date.now() - lastBlink > 2500) blink(); sealEl.classList.remove('nod'); void sealEl.offsetWidth; sealEl.classList.add('nod'); }
+    }
+  }, 700);
 
   /* toast */
   const toastEl = document.getElementById('toast'); let tt;
