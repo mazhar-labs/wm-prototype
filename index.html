@@ -643,6 +643,7 @@ section.blk .prose h2 { margin: 0; color: var(--ink); font-size: clamp(26px, 2.6
   .cards { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 6px; margin-inline: -4px; padding-inline: 4px; scrollbar-width: none; }
   .card { flex: 0 0 210px; scroll-snap-align: start; }
   .pair { grid-template-columns: minmax(0, 1fr); }
+  .pair .dir { margin-block: -14px; }
   .swap { padding: 0; justify-self: center; margin-block: -14px; position: relative; z-index: 1; border: 4px solid var(--surface); box-sizing: content-box; }
   .cta { width: 100%; }
   .calc-foot { grid-template-columns: minmax(0, 1fr); }
@@ -923,6 +924,26 @@ main#home > .wrap.hero { position: relative; }
 .stepper li { cursor: pointer; }
 .stepper li:not([aria-current]):hover { border-color: var(--accent); color: var(--ink); scale: 1.06; }
 .stepper li:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* calculator: quote loading states (no empty fields, no corner spinner) */
+#getBox { position: relative; overflow: hidden; }
+#getBox .amount { transition: opacity .2s; }
+#getBox.is-updating .amount { opacity: .55; }
+#getBox::after { content: ""; position: absolute; left: 16px; right: 16px; bottom: 0; height: 2px; border-radius: 2px; opacity: 0; transition: opacity .2s;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent); background-size: 45% 100%; background-repeat: no-repeat; }
+#getBox.is-updating::after { opacity: 1; animation: qLoad 1.1s linear infinite; }
+@keyframes qLoad { from { background-position: -60% 0; } to { background-position: 160% 0; } }
+.q-slow { display: none; color: var(--accent); }
+#getBox.is-slow .q-slow { display: inline; }
+#get.flash-up { animation: flashUp 1s var(--ease); } #get.flash-down { animation: flashDown 1s var(--ease); }
+#get { border-radius: 6px; }
+.cta.is-waiting { position: relative; color: transparent !important; }
+.cta.is-waiting::after { content: ""; position: absolute; inset: 0; margin: auto; width: 20px; height: 20px; border-radius: 50%; border: 2px solid rgba(255,255,255,.35); border-top-color: #fff; animation: spinQ .7s linear infinite; }
+@keyframes spinQ { to { rotate: 360deg; } }
+
+/* direction indicator: static arrow for Kup/Sprzedaj, swap button only for Wymiana */
+.pair .dir { justify-self: center; margin-block: -12px; position: relative; z-index: 1; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--field); color: var(--muted); border: 4px solid var(--surface); box-sizing: content-box; }
+.pair .dir[hidden], .pair .swap[hidden] { display: none; }
 /* ===== design tokens: one type scale + one spacing rhythm (overrides earlier ad-hoc values) ===== */
 :root {
   --t-cap: 12px; --t-sm: 14px; --t-body: 16px; --t-lead: 18px;
@@ -974,6 +995,7 @@ section.blk .sub { margin-top: 8px; }
     <button class="toggle" type="button" popovertarget="pal">Палитра</button>
     <button class="toggle tool-phone" type="button" popovertarget="phone">Телефон</button>
     <button class="toggle xt" type="button" data-x="kwit" aria-pressed="true">Расчёт (wycena) <i></i></button><button class="toggle xt" type="button" data-x="mane" aria-pressed="true">Узор гривы <i></i></button><button class="toggle xt" type="button" data-x="lion" aria-pressed="true">Живой лев <i></i></button>
+    <button class="toggle" id="srvT" type="button" aria-pressed="true" title="Имитирует ответ сервера через 0,6–1,5 с">Задержка сервера <i></i></button>
     <button class="toggle" id="motionT" type="button" aria-pressed="true">Анимации <i></i></button>
     <button class="toggle" id="themeT" type="button" aria-pressed="false">Тёмная тема <i></i></button>
   </div>
@@ -1022,11 +1044,11 @@ section.blk .sub { margin-top: 8px; }
               <span class="cur" id="giveCur"></span>
             </div>
           </div>
-          <button class="swap" type="button" id="swap" aria-label="Zamień kierunek"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4v16M7 20l-3-3M7 20l3-3M17 20V4M17 4l-3 3M17 4l3 3"/></svg></button>
-          <div class="box">
-            <label for="get">Otrzymujesz (szacunkowo)</label>
+          <span class="dir" id="dirArrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></span><button class="swap" type="button" id="swap" aria-label="Zamień kierunek wymiany" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4v16M7 20l-3-3M7 20l3-3M17 20V4M17 4l-3 3M17 4l3 3"/></svg></button>
+          <div class="box" id="getBox">
+            <label for="get">Otrzymujesz (szacunkowo)<span class="q-slow" id="qSlow" aria-hidden="true"> · aktualizujemy kurs…</span></label>
             <div class="row">
-              <input class="amount" id="get" readonly tabindex="-1" value="0">
+              <input class="amount" id="get" readonly tabindex="-1" value="0" aria-live="polite">
               <span class="cur" id="getCur"></span>
             </div>
           </div>
@@ -1526,12 +1548,14 @@ section.blk .sub { margin-top: 8px; }
     const idx = ['buy', 'sell', 'swap'].indexOf(m);
     pill.style.translate = `${idx * 100}% 0`;
     document.querySelectorAll('.tabs button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.mode === m)));
+    document.getElementById('swap').hidden = m !== 'swap'; document.getElementById('dirArrow').hidden = m === 'swap';
     document.getElementById('methodL').textContent = m === 'sell' ? 'Metoda otrzymania płatności' : 'Metoda wysyłki płatności';
     if (m === 'buy') { curPill(giveCur, null); curPill(getCur, state.coin, 'coin'); cta.textContent = 'Kup teraz'; }
     if (m === 'sell') { curPill(giveCur, state.coin, 'coin'); curPill(getCur, null); cta.textContent = 'Sprzedaj teraz'; }
     if (m === 'swap') { curPill(giveCur, state.from, 'from'); curPill(getCur, state.to, 'to'); cta.textContent = 'Wymień teraz'; }
     fitAmt(giveIn);
     calc(true);
+    if (window.__qReady) requestQuote();
   }
   document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => {
     const prev = state.mode; state.mode = b.dataset.mode;
@@ -1541,11 +1565,11 @@ section.blk .sub { margin-top: 8px; }
   let rot = 0;
   document.getElementById('swap').addEventListener('click', e => {
     rot += 180; e.currentTarget.style.rotate = rot + 'deg';
-    if (state.mode === 'swap') { [state.from, state.to] = [state.to, state.from]; }
-    else { state.mode = state.mode === 'buy' ? 'sell' : 'buy'; giveIn.value = state.mode === 'buy' ? FIAT[state.fiat].def : '0,01'; }
+    if (state.mode !== 'swap') return;
+    [state.from, state.to] = [state.to, state.from];
     render();
   });
-  giveIn.addEventListener('input', () => { fitAmt(giveIn); calc(false); });
+  giveIn.addEventListener('input', () => { fitAmt(giveIn); calc(false); requestQuote(); });
   addEventListener('resize', () => { fitAmt(giveIn); fitAmt(getIn); });
   if (document.fonts) document.fonts.ready.then(() => { fitAmt(giveIn); fitAmt(getIn); });
   const mLogo = document.getElementById('mLogo'), mName = document.getElementById('mName');
@@ -1563,7 +1587,7 @@ section.blk .sub { margin-top: 8px; }
   function paintMethod() { const m = METHODS.find(x => x.id === methodId); mLogo.textContent = m.logo; mLogo.style.background = m.bg; mLogo.style.color = m.fg; mName.textContent = m.name; }
   document.getElementById('methodBtn').addEventListener('click', e => openPicker(METHODS.map(m => ({ id: m.id, name: m.name, sub: m.sub, icon: mIcon(m) })), methodId, v => { methodId = v; paintMethod(); }, e.currentTarget, 'Wybierz metodę płatności', 'Szukaj metody płatności'));
   paintMethod();
-  document.getElementById('calc').addEventListener('submit', e => { e.preventDefault(); toast('В прототипе: здесь откроется /x/login, затем оформление заявки'); });
+  document.getElementById('calc').addEventListener('submit', e => { e.preventDefault(); if (quotePending) { cta.classList.add('is-waiting'); quoteWaiters.push(() => { cta.classList.remove('is-waiting'); toast('В прототипе: здесь откроется /x/login, затем оформление заявки'); }); return; } toast('В прототипе: здесь откроется /x/login, затем оформление заявки'); });
   render();
 
 
@@ -1603,6 +1627,52 @@ section.blk .sub { margin-top: 8px; }
   geoRows.forEach(r => { r.addEventListener('mouseenter', () => geoOn(r.dataset.city)); r.addEventListener('focus', () => geoOn(r.dataset.city)); });
   geoDots.forEach(d => { d.addEventListener('mouseenter', () => geoOn(d.dataset.city)); d.addEventListener('click', () => { location.hash = '#/kontakty'; }); });
   document.querySelector('.geo').addEventListener('mouseleave', () => geoOn(null));
+
+
+  /* ===== server quote simulation: estimate instantly, refine from "server", never show empty fields ===== */
+  const getBox = document.getElementById('getBox'), qSlow = document.getElementById('qSlow'), srvT = document.getElementById('srvT');
+  let srvOn = true; srvT.addEventListener('click', () => { srvOn = !srvOn; srvT.setAttribute('aria-pressed', String(srvOn)); });
+  var quotePending = false, quoteWaiters = [];
+  let qTimer = 0, qSeq = 0, qLoaderT = 0, qSlowT = 0, qAbort = null;
+  const DEBOUNCE = 350, LOADER_DELAY = 300, SLOW_AFTER = 2000;
+  function fakeServer(signal) {
+    return new Promise((res, rej) => {
+      const t = setTimeout(() => res({ k: 1 + (Math.random() - .5) * .004 }), 600 + Math.random() * 900);
+      signal.addEventListener('abort', () => { clearTimeout(t); rej(new DOMException('aborted', 'AbortError')); });
+    });
+  }
+  function setUpdating(on) {
+    getBox.classList.toggle('is-updating', on);
+    if (on) getBox.setAttribute('aria-busy', 'true'); else getBox.removeAttribute('aria-busy');
+  }
+  function requestQuote() {
+    if (!srvOn) return;
+    clearTimeout(qTimer);
+    quotePending = true;
+    qTimer = setTimeout(async () => {
+      qAbort && qAbort.abort(); qAbort = new AbortController();
+      const id = ++qSeq;
+      clearTimeout(qLoaderT); clearTimeout(qSlowT);
+      qLoaderT = setTimeout(() => setUpdating(true), LOADER_DELAY);
+      qSlowT = setTimeout(() => getBox.classList.add('is-slow'), SLOW_AFTER);
+      try {
+        const q = await fakeServer(qAbort.signal);
+        if (id !== qSeq) return;
+        const before = getIn.value;
+        const exact = parseFloat(String(before).replace(/\s/g, '').replace(',', '.')) * q.k;
+        const fmtLike = state.mode === 'sell' ? n => pl(n, 2) : fmtCrypto;
+        if (isFinite(exact) && exact > 0) setAmt(getIn, fmtLike(exact));
+        if (getIn.value !== before && motion) { getIn.classList.remove('flash-up', 'flash-down'); void getIn.offsetWidth; getIn.classList.add(q.k >= 1 ? 'flash-up' : 'flash-down'); }
+      } catch (e) { if (e.name !== 'AbortError') toast('Nie udało się odświeżyć kursu. Spróbuj ponownie.'); }
+      finally {
+        if (id === qSeq) {
+          clearTimeout(qLoaderT); clearTimeout(qSlowT); setUpdating(false); getBox.classList.remove('is-slow');
+          quotePending = false; const w = quoteWaiters.splice(0); w.forEach(f => f());
+        }
+      }
+    }, DEBOUNCE);
+  }
+  window.__qReady = true;
 
   /* stepper follows the stacked cards */
   const scards = [...document.querySelectorAll('.scard')], dots = [...document.querySelectorAll('.stepper li')];
